@@ -8,14 +8,12 @@ class App extends Component {
   state = { user: {} };
 
   componentDidMount() {
-    console.log('CMD: ', this.state.user);
     this.authListener();
   }
 
   authListener = () => {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('user ', user);
         this.setState({ user });
       } else {
         this.setState({ user: null });
