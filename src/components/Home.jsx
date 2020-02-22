@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import fire from '../firebase-app';
 import { httpClient } from '../clients/http';
+import { logout } from '../clients/auth';
 
 class Home extends Component {
-  state = {};
-
   sendRequest = async () => {
     try {
       const currentUser = fire.auth().currentUser;
@@ -24,15 +23,11 @@ class Home extends Component {
     }
   };
 
-  logout = () => {
-    fire.auth().signOut();
-  };
-
   render() {
     return (
       <div>
         <h1>home</h1>
-        <button onClick={this.logout}>Logout</button>
+        <button onClick={logout}>Logout</button>
         <button onClick={this.sendRequest}>Request</button>
       </div>
     );

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import fire from '../firebase-app';
+import { signup, login } from '../clients/auth';
+import { Redirect } from 'react-router-dom';
+
+const COMPONENT = 'Login';
 
 class Login extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    shouldRedirect: false
   };
-
-  componentDidMount() {}
 
   handleChange = e => {
     this.setState({
@@ -15,26 +17,31 @@ class Login extends Component {
     });
   };
 
-  login = e => {
+  handleLogin = async e => {
     e.preventDefault();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => console.log(user))
-      .catch(error => console.log(error));
+    try {
+      await login(this.state.email, this.state.password);
+      this.setState({ shouldRedirect: true });
+    } catch (error) {
+      console.log(COMPONENT, error);
+    }
   };
 
-  signup = e => {
-    console.log(fire);
+  handleSignup = async e => {
     e.preventDefault();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => console.log(user))
-      .catch(error => console.log(error));
+    try {
+      await signup(this.state.email, this.state.password);
+      this.setState({ shouldRedirect: true });
+    } catch (error) {
+      console.log(COMPONENT, error);
+    }
   };
 
   render() {
+    if (this.state.shouldRedirect === true) {
+      return <Redirect to='/' />;
+    }
+
     return (
       <div>
         <form>
@@ -54,8 +61,8 @@ class Login extends Component {
             onChange={this.handleChange}
             value={this.state.password}
           />
-          <button onClick={this.login}>Login</button>
-          <button onClick={this.signup}>Signup</button>
+          <button onClick={this.handleLogin}>Login</button>
+          <button onClick={this.handleSignup}>Signup</button>
         </form>
       </div>
     );
