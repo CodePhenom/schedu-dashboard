@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { logout } from '../../clients/auth';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AppBar,
   CssBaseline,
@@ -22,6 +20,9 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import PrivateRoute from '../PrivateRoute';
+import Instructions from '../Instructions';
+import Home from './../Home';
 
 const drawerWidth = 240;
 
@@ -58,8 +59,13 @@ const useStyles = makeStyles(theme => ({
 function ResponsiveDrawer(props) {
   const {
     container,
-    location: { pathname }
+    location: { pathname },
+    match: { url, path }
   } = props;
+  console.log('url ', url);
+  console.log('path ', path);
+  console.log('pathname ', pathname);
+
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -75,7 +81,7 @@ function ResponsiveDrawer(props) {
       {/* </Hidden> */}
       <Divider />
       <MenuList>
-        <MenuItem component={Link} to='/' selected={'/' === pathname}>
+        <MenuItem component={Link} to='/home' selected={'/home' === pathname}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -150,18 +156,14 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {props.children}
+        <Switch>
+          <Route path='/instructions' component={Instructions} />
+          <Route path='/home' component={Home} />
+          <Redirect from='/' to='/home' />
+        </Switch>
       </main>
     </div>
   );
 }
 
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  container: PropTypes.any
-};
-
-export default compose(withRouter)(ResponsiveDrawer);
+export default ResponsiveDrawer;

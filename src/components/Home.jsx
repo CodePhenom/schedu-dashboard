@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import fire from '../firebase-app';
 import { httpClient } from '../clients/http';
-import { logout } from '../clients/auth';
 
 class Home extends Component {
   sendRequest = async () => {
