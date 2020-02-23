@@ -5,8 +5,13 @@ import Home from './Components/Home';
 import Instructions from './Components/Instructions';
 import PrivateRoute from './Components/PrivateRoute';
 import NotFound from './Components/NotFound';
-import Layout from './Components/Layout';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import AdminLayout from './Components/Layout';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 
 class App extends Component {
   state = { user: {} };
@@ -28,28 +33,16 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Layout>
-          <ul>
-            <Link to='/'>Home</Link>
-            <Link to='/login'>Login</Link>
-            <Link to='/instructions'>Instructions</Link>
-          </ul>
-          <Switch>
-            <PrivateRoute
-              exact
-              path='/'
-              user={this.state.user}
-              component={Home}
-            />
-            <Route path='/login' component={Login}></Route>
-            <PrivateRoute
-              user={this.state.user}
-              path='/instructions'
-              component={Instructions}
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </Layout>
+        <Switch>
+          <Route path='/auth' component={Login} />
+          <Route path='/not-found' component={NotFound} />
+          <PrivateRoute
+            path='/'
+            user={this.state.user}
+            component={AdminLayout}
+          />
+          {/* <Redirect to='/not-found' /> */}
+        </Switch>
       </Router>
     );
   }
