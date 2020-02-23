@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { signup, login } from '../clients/auth';
 import { Redirect } from 'react-router-dom';
-import { Paper, TextField } from '@material-ui/core/TextField';
+import { Paper, TextField } from '@material-ui/core';
 
 const COMPONENT = 'Login';
 
