@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { logout } from '../../clients/auth';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import {
@@ -14,7 +15,8 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -33,6 +35,9 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
+  },
+  appBarTitle: {
+    flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -104,9 +109,12 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
+          <Button color='inherit' onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label='mailbox folders'>
