@@ -3,8 +3,9 @@ import fire from './firebase-app';
 import Login from './components/Login';
 import Home from './components/Home';
 import Instructions from './components/Instructions';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import NotFound from './components/NotFound';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 class App extends Component {
   state = { user: {} };
@@ -27,14 +28,25 @@ class App extends Component {
     return (
       <Router>
         <div className='App'>
+          <ul>
+            <Link to='/'>Home</Link>
+            <Link to='/login'>Login</Link>
+            <Link to='/instructions'>Instructions</Link>
+          </ul>
           <Switch>
+            <PrivateRoute
+              exact
+              path='/'
+              user={this.state.user}
+              component={Home}
+            />
             <Route path='/login' component={Login}></Route>
             <PrivateRoute
               user={this.state.user}
               path='/instructions'
               component={Instructions}
             />
-            <PrivateRoute user={this.state.user} path='/' component={Home} />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </Router>
