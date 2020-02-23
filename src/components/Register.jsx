@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { login } from '../clients/auth';
+import { signup } from '../clients/auth';
 import { Redirect } from 'react-router-dom';
 import { Paper, TextField, Button } from '@material-ui/core';
 
-const COMPONENT = 'Login';
+const COMPONENT = 'Register';
 
-class Login extends Component {
+class Register extends Component {
   state = {
     email: '',
     password: '',
@@ -18,10 +18,10 @@ class Login extends Component {
     });
   };
 
-  handleLogin = async e => {
+  handleSignup = async e => {
     e.preventDefault();
     try {
-      await login(this.state.email, this.state.password);
+      await signup(this.state.email, this.state.password);
       this.setState({ shouldRedirect: true });
     } catch (error) {
       console.log(COMPONENT, error);
@@ -35,7 +35,7 @@ class Login extends Component {
 
     return (
       <Paper elevation={3}>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form>
           <TextField
             required
@@ -59,11 +59,11 @@ class Login extends Component {
             value={this.state.password}
           />
           <Button
-            onClick={this.handleLogin}
             variant='contained'
             color='primary'
+            onClick={this.handleSignup}
           >
-            Login
+            Signup
           </Button>
         </form>
       </Paper>
@@ -71,4 +71,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

@@ -20,7 +20,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import PrivateRoute from '../PrivateRoute';
 import Instructions from '../Instructions';
 import Home from './../Home';
 
@@ -59,12 +58,8 @@ const useStyles = makeStyles(theme => ({
 function ResponsiveDrawer(props) {
   const {
     container,
-    location: { pathname },
-    match: { url, path }
+    location: { pathname }
   } = props;
-  console.log('url ', url);
-  console.log('path ', path);
-  console.log('pathname ', pathname);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -123,8 +118,7 @@ function ResponsiveDrawer(props) {
           </Button>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label='mailbox folders'>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+      <nav className={classes.drawer}>
         <Hidden smUp implementation='css'>
           <Drawer
             container={container}
@@ -136,7 +130,7 @@ function ResponsiveDrawer(props) {
               paper: classes.drawerPaper
             }}
             ModalProps={{
-              keepMounted: true // Better open performance on mobile.
+              keepMounted: true
             }}
           >
             {drawer}
