@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import fire from './firebase-app';
-import Login from './components/Login';
-import Home from './components/Home';
-import Instructions from './components/Instructions';
-import PrivateRoute from './components/PrivateRoute';
-import NotFound from './components/NotFound';
+import Login from './Components/Login';
+import Home from './Components/Home';
+import Instructions from './Components/Instructions';
+import PrivateRoute from './Components/PrivateRoute';
+import NotFound from './Components/NotFound';
+import Layout from './Components/Layout';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 class App extends Component {
@@ -27,7 +28,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className='App'>
+        <Layout>
           <ul>
             <Link to='/'>Home</Link>
             <Link to='/login'>Login</Link>
@@ -48,7 +49,7 @@ class App extends Component {
             />
             <Route component={NotFound} />
           </Switch>
-        </div>
+        </Layout>
       </Router>
     );
   }

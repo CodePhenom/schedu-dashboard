@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { signup, login } from '../clients/auth';
 import { Redirect } from 'react-router-dom';
+import { Paper, TextField } from '@material-ui/core';
 
 const COMPONENT = 'Login';
 
@@ -43,28 +44,33 @@ class Login extends Component {
     }
 
     return (
-      <div>
+      <Paper elevation={3}>
         <form>
-          <input
-            type='email'
-            name='email'
+          <TextField
+            required
             id='email'
+            name='email'
+            label='Email'
+            variant='outlined'
             placeholder='Email'
             onChange={this.handleChange}
             value={this.state.email}
           />
-          <input
-            type='password'
-            name='password'
+          <TextField
+            required
             id='password'
+            name='password'
+            label='Password'
+            type='password'
             placeholder='Password'
+            variant='outlined'
             onChange={this.handleChange}
             value={this.state.password}
           />
           <button onClick={this.handleLogin}>Login</button>
           <button onClick={this.handleSignup}>Signup</button>
         </form>
-      </div>
+      </Paper>
     );
   }
 }
