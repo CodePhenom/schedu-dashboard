@@ -22,6 +22,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Instructions from '../Instructions';
 import Home from './../Home';
+import { connect } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -160,4 +161,9 @@ function ResponsiveDrawer(props) {
   );
 }
 
-export default ResponsiveDrawer;
+const mapStateToProps = state => {
+  console.log('Layout - redux state ', state);
+  return {};
+};
+
+export default connect(mapStateToProps)(ResponsiveDrawer);
