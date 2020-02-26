@@ -10,6 +10,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class App extends Component {
   state = { user: {} };
@@ -29,6 +30,7 @@ class App extends Component {
   };
 
   render() {
+    console.log('App - props', this.props);
     return (
       <Router>
         <Switch>
@@ -48,4 +50,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(App);
