@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { login } from '../clients/auth';
+// import { login } from '../clients/auth';
 import { Redirect } from 'react-router-dom';
 import { Paper, TextField, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { login } from './../store/actions/auth-actions';
 
 const COMPONENT = 'Login';
 
@@ -21,7 +23,10 @@ class Login extends Component {
   handleLogin = async e => {
     e.preventDefault();
     try {
-      await login(this.state.email, this.state.password);
+      this.props.login({
+        email: this.state.email,
+        password: this.state.password
+      });
       this.setState({ shouldRedirect: true });
     } catch (error) {
       console.log(COMPONENT, error);
@@ -71,4 +76,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  login: credentials => dispatch(login(credentials))
+});
+
+export default connect(null, mapDispatchToProps)(Login);

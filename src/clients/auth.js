@@ -1,7 +1,7 @@
-import firebaseApp from '../firebase-app';
+import firebaseApp from '../config/firebase-config';
 
 const login = (email, password) => {
-  return firebaseApp.auth().signInWithEmailAndPassword(email, password);
+  return firebaseApp.auth().loginWithEmailAndPassword(email, password);
 };
 
 const signup = (email, password) => {
@@ -10,7 +10,9 @@ const signup = (email, password) => {
 
 const logout = async () => {
   try {
+    console.log('logout client');
     await firebaseApp.auth().signOut();
+    console.log('logout complete');
   } catch (error) {
     console.log('AUTH', error);
   }

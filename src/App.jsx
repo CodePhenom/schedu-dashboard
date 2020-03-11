@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fire from './firebase-app';
+import fire from './config/firebase-config';
 import PrivateRoute from './Components/PrivateRoute';
 import NotFound from './Components/NotFound';
 import AdminLayout from './Components/Layout';
