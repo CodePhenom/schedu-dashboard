@@ -1,5 +1,5 @@
 import React from 'react';
-import { logout } from '../../clients/auth';
+// import { logout } from '../../clients/auth';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AppBar,
@@ -14,7 +14,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Button
+  Button,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -23,43 +23,44 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Instructions from '../Instructions';
 import Home from './../Home';
 import { connect } from 'react-redux';
+import { signOut } from '../../store/actions/auth-actions';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   appBarTitle: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+  },
 }));
 
 function ResponsiveDrawer(props) {
   const {
     container,
-    location: { pathname }
+    location: { pathname },
   } = props;
 
   const classes = useStyles();
@@ -114,7 +115,10 @@ function ResponsiveDrawer(props) {
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
-          <Button color='inherit' onClick={logout}>
+          <Typography variant='h6' className={classes.appBarTitle} noWrap>
+            {props.user.email}
+          </Typography>
+          <Button color='inherit' onClick={props.signOut}>
             Logout
           </Button>
         </Toolbar>
@@ -128,10 +132,10 @@ function ResponsiveDrawer(props) {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true
+              keepMounted: true,
             }}
           >
             {drawer}
@@ -140,7 +144,7 @@ function ResponsiveDrawer(props) {
         <Hidden xsDown implementation='css'>
           <Drawer
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
             variant='permanent'
             open
@@ -161,9 +165,16 @@ function ResponsiveDrawer(props) {
   );
 }
 
-const mapStateToProps = state => {
-  console.log('Layout - redux state ', state);
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    user: state.firebase.auth,
+  };
 };
 
-export default connect(mapStateToProps)(ResponsiveDrawer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResponsiveDrawer);
