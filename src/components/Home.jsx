@@ -12,8 +12,8 @@ class Home extends Component {
           method: 'get',
           url: '/auth',
           headers: {
-            AuthToken: token
-          }
+            AuthToken: token,
+          },
         });
         console.log('res ', res);
       }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import { login } from '../clients/auth';
-import { Redirect } from 'react-router-dom';
-import { Paper, TextField, Button } from '@material-ui/core';
+import { Redirect, Link } from 'react-router-dom';
+import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { login } from './../store/actions/auth-actions';
 
@@ -11,21 +10,21 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
-    shouldRedirect: false
+    shouldRedirect: false,
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  handleLogin = async e => {
+  handleLogin = async (e) => {
     e.preventDefault();
     try {
-      this.props.login({
+      await this.props.login({
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
       });
       this.setState({ shouldRedirect: true });
     } catch (error) {
@@ -34,9 +33,11 @@ class Login extends Component {
   };
 
   render() {
-    if (this.state.shouldRedirect === true) {
+    if (this.state.shouldRedirect === true || !this.props.auth.isEmpty) {
       return <Redirect to='/' />;
     }
+
+    const { authError } = this.props;
 
     return (
       <Paper elevation={3}>
@@ -71,13 +72,24 @@ class Login extends Component {
             Login
           </Button>
         </form>
+        <Typography component={Link} to='/register'>
+          Create a new account!
+        </Typography>
+        {authError && <Typography>{authError}</Typography>}
       </Paper>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  login: credentials => dispatch(login(credentials))
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (credentials) => dispatch(login(credentials)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
