@@ -8,12 +8,21 @@ const {
   REGISTER_SUCCESS,
 } = actionNames.auth;
 
-export const register = ({ email, password }) => {
+const { CREATE_USER } = actionNames.firestore;
+
+export const register = ({ email, password, firstName, lastName }) => {
   return async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
+    const db = firebase.firestore();
 
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      await db.collection('users').doc(user.user.uid).set({
+        firstName,
+        lastName,
+      });
       dispatch({ type: REGISTER_SUCCESS });
     } catch (error) {
       dispatch({ type: REGISTER_ERROR, error });
