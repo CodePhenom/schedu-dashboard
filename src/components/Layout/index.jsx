@@ -20,10 +20,9 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Instructions from '../Instructions';
-import Home from './../Home';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/auth-actions';
+import { privateRoutes } from './../../routes';
 
 const drawerWidth = 240;
 
@@ -156,8 +155,9 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route path='/instructions' component={Instructions} />
-          <Route path='/home' component={Home} />
+          {privateRoutes.map((route, id) => (
+            <Route {...route} key={id} />
+          ))}
           <Redirect from='/' to='/home' />
         </Switch>
       </main>
