@@ -9,8 +9,8 @@ class Home extends Component {
       if (currentUser) {
         const token = await currentUser.getIdToken();
         const res = await httpClient({
-          method: 'get',
-          url: '/auth',
+          method: 'post',
+          url: '/users',
           headers: {
             AuthToken: token,
           },

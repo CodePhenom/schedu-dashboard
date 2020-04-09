@@ -15,6 +15,11 @@ import {
 import firebase from './config/firebase-config';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true,
+};
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk.withExtraArgument(getFirebase)))
@@ -22,7 +27,7 @@ const store = createStore(
 
 const rrfProps = {
   firebase,
-  config: {},
+  config: rrfConfig,
   dispatch: store.dispatch,
 };
 

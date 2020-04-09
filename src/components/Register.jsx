@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { register } from './../store/actions/auth-actions';
+import firebase from './../config/firebase-config';
 
 const COMPONENT = 'Register';
 
@@ -10,6 +11,8 @@ class Register extends Component {
   state = {
     email: '',
     password: '',
+    firstName: '',
+    lastName: '',
     shouldRedirect: false,
   };
 
@@ -23,6 +26,8 @@ class Register extends Component {
     e.preventDefault();
     try {
       await this.props.register({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         email: this.state.email,
         password: this.state.password,
       });
@@ -52,6 +57,26 @@ class Register extends Component {
             placeholder='Email'
             onChange={this.handleChange}
             value={this.state.email}
+          />
+          <TextField
+            required
+            id='firstName'
+            name='firstName'
+            label='Firstame'
+            variant='outlined'
+            placeholder='Firstname'
+            onChange={this.handleChange}
+            value={this.state.firstName}
+          />
+          <TextField
+            required
+            id='lastName'
+            name='lastName'
+            label='Lastname'
+            variant='outlined'
+            placeholder='Lastname'
+            onChange={this.handleChange}
+            value={this.state.lastName}
           />
           <TextField
             required
@@ -88,8 +113,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  register: (credentials) => dispatch(register(credentials)),
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    register: (credentials) => dispatch(register(credentials)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
