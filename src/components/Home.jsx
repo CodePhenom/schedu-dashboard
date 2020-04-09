@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fire from '../config/firebase-config';
 import { httpClient } from '../clients/http';
+import { connect } from 'react-redux';
 
 class Home extends Component {
   sendRequest = async () => {
@@ -26,10 +27,18 @@ class Home extends Component {
     return (
       <div>
         <h1>home</h1>
+        <h3>
+          Hi {this.props.auth.displayName || this.props.profile.firstName}
+        </h3>
         <button onClick={this.sendRequest}>Request</button>
       </div>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+});
+
+export default connect(mapStateToProps)(Home);

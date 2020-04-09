@@ -15,6 +15,7 @@ import {
   Toolbar,
   Typography,
   Button,
+  Avatar,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -23,7 +24,6 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/auth-actions';
 import { privateRoutes } from './../../routes';
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -114,9 +114,7 @@ function ResponsiveDrawer(props) {
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
-          <Typography variant='h6' className={classes.appBarTitle} noWrap>
-            {props.user.email}
-          </Typography>
+          <Avatar src={props.auth.photoURL} alt='' />
           <Button color='inherit' onClick={props.signOut}>
             Logout
           </Button>
@@ -167,7 +165,7 @@ function ResponsiveDrawer(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.firebase.auth,
+    auth: state.firebase.auth,
   };
 };
 

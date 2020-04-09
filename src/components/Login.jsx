@@ -3,6 +3,8 @@ import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { login } from './../store/actions/auth-actions';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase, { uiConfig } from './../config/firebase-config';
 
 const COMPONENT = 'Login';
 
@@ -75,6 +77,10 @@ class Login extends Component {
         <Typography component={Link} to='/register'>
           Create a new account!
         </Typography>
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
         {authError && <Typography>{authError}</Typography>}
       </Paper>
     );
