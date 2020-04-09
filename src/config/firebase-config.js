@@ -12,6 +12,15 @@ const config = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
+export const uiConfig = {
+  signInFlow: 'popup',
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+  ],
+};
+
 firebase.initializeApp(config);
 
 export default firebase;
