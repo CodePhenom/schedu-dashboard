@@ -12,11 +12,6 @@ import {
   getFirebase,
   ReactReduxFirebaseProvider,
 } from 'react-redux-firebase';
-import {
-  createFirestoreInstance,
-  getFirestore,
-  reduxFirestore,
-} from 'redux-firestore';
 import firebase from './config/firebase-config';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -27,17 +22,13 @@ const rrfConfig = {
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(getFirebase))
-    // reduxFirestore(firebase, rrfConfig)
-  )
+  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(getFirebase)))
 );
 
 const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  // createFirestoreInstance,
 };
 
 const theme = createMuiTheme({

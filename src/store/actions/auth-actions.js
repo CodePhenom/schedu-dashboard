@@ -8,8 +8,6 @@ const {
   REGISTER_SUCCESS,
 } = actionNames.auth;
 
-const { CREATE_USER } = actionNames.firestore;
-
 export const register = ({ email, password, firstName, lastName }) => {
   return async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();

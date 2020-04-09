@@ -6,18 +6,8 @@ const auth = {
   REGISTER_ERROR: 'REGISTER_ERROR',
 };
 
-const task = {
-  CREATE_TASK: 'CREATE_TASK',
-};
-
-const firestore = {
-  CREATE_USER: 'CREATE_USER',
-};
-
 const actionNames = {
   auth,
-  task,
-  firestore,
 };
 
 export default actionNames;
