@@ -40,12 +40,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginTop: 5,
   },
+  email: {
+    color: 'grey',
+    fontWeight: '100',
+  },
 }));
 
 const DropDownMenu = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const classes = useStyles();
+
+  const {
+    auth: { photoURL, email, displayName },
+    profile: { firstName, lastName },
+  } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -55,12 +64,20 @@ const DropDownMenu = (props) => {
     setAnchorEl(null);
   };
 
+  const renderAvatar = () => {
+    return Boolean(photoURL) ? (
+      <Avatar className={classes.avatar} aria-haspopup='true' src={photoURL} />
+    ) : (
+      <Avatar>{firstName && firstName.charAt(0) + lastName.charAt(0)}</Avatar>
+    );
+  };
+
   return (
     <div>
       <Avatar
         aria-controls='simple-menu'
         aria-haspopup='true'
-        src={props.auth.photoURL}
+        src={photoURL}
         onClick={handleClick}
       />
       <Menu
@@ -73,16 +90,14 @@ const DropDownMenu = (props) => {
       >
         <div>
           <Paper className={classes.paper} elevation={0}>
-            <div className={classes.avatar}>
-              <Avatar
-                className={classes.avatar}
-                aria-haspopup='true'
-                src={props.auth.photoURL}
-              />
-            </div>
+            <div className={classes.avatar}>{renderAvatar()}</div>
             <div className={classes.information}>
-              <Typography>{props.auth.email}</Typography>
-              <Typography>{props.auth.displayName}</Typography>
+              <Typography>
+                {displayName || `${firstName} ${lastName}`}
+              </Typography>
+              <Typography className={classes.email} variant='subtitle2'>
+                {email}
+              </Typography>
             </div>
           </Paper>
           <Divider />
@@ -97,6 +112,7 @@ const DropDownMenu = (props) => {
 
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
+  profile: state.firebase.profile,
 });
 
 const mapDispatchToProps = (dispatch) => {
