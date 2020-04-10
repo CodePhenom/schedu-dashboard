@@ -2,7 +2,7 @@ import Login from '../Components/Login';
 import Register from '../Components/Register';
 import Home from './../Components/Home';
 import Instructions from './../Components/Instructions';
-import Admin from './../Components/Admin';
+import Admin from '../Components/Admin/Admin';
 
 const publicRoutes = [
   {

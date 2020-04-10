@@ -52,9 +52,14 @@ const DropDownMenu = (props) => {
   const classes = useStyles();
 
   const {
-    auth: { photoURL, email, displayName },
-    profile: { firstName, lastName },
+    auth: { photoURL, email },
+    profile,
   } = props;
+
+  let displayName = props.auth.displayName;
+  if (!displayName && profile.name) {
+    displayName = profile.name.displayName;
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,11 +69,18 @@ const DropDownMenu = (props) => {
     setAnchorEl(null);
   };
 
+  const getUppercaseIntials = (firstName, lastName) => {
+    return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+  };
+
   const renderAvatar = () => {
+    const { name } = profile;
     return Boolean(photoURL) ? (
       <Avatar className={classes.avatar} aria-haspopup='true' src={photoURL} />
     ) : (
-      <Avatar>{firstName && firstName.charAt(0) + lastName.charAt(0)}</Avatar>
+      <Avatar>
+        {name && getUppercaseIntials(name.firstName, name.lastName)}
+      </Avatar>
     );
   };
 
@@ -92,9 +104,7 @@ const DropDownMenu = (props) => {
           <Paper className={classes.paper} elevation={0}>
             <div className={classes.avatar}>{renderAvatar()}</div>
             <div className={classes.information}>
-              <Typography>
-                {displayName || `${firstName} ${lastName}`}
-              </Typography>
+              <Typography>{displayName}</Typography>
               <Typography className={classes.email} variant='subtitle2'>
                 {email}
               </Typography>
@@ -110,10 +120,12 @@ const DropDownMenu = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.firebase.auth,
-  profile: state.firebase.profile,
-});
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -32,6 +32,21 @@ class App extends Component {
           const idTokenResult = await user.getIdTokenResult();
           const isAdmin = idTokenResult.claims.admin;
           this.props.setUserAdminStatus(isAdmin);
+
+          // create the user in firestore if it does not exist there (for the Google or Facebook SSO)
+          const db = fire.firestore();
+          const usersRef = await db.collection('users').doc(user.uid);
+          const userDoc = await usersRef.get();
+          if (!userDoc.exists) {
+            await db
+              .collection('users')
+              .doc(user.uid)
+              .set({
+                name: {
+                  displayName: user.displayName,
+                },
+              });
+          }
         }
       });
     }

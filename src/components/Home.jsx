@@ -24,9 +24,7 @@ class Home extends Component {
     return (
       <div>
         <h1>home</h1>
-        <h3>
-          Hi {this.props.auth.displayName || this.props.profile.firstName}
-        </h3>
+        <h3>Hi</h3>
         <button onClick={this.sendRequest}>Request</button>
       </div>
     );
