@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import fire from '../config/firebase-config';
 import { httpClient } from '../clients/http';
 import { connect } from 'react-redux';
 
 class Home extends Component {
   sendRequest = async () => {
     try {
-      const currentUser = fire.auth().currentUser;
-      if (currentUser) {
-        const token = await currentUser.getIdToken();
-        const res = await httpClient({
-          method: 'post',
-          url: '/users',
+      const { accessToken } = this.props.auth.stsTokenManager;
+      if (accessToken) {
+        const res = await httpClient.post('/users', null, {
           headers: {
-            AuthToken: token,
+            AuthToken: accessToken,
           },
         });
         console.log('res ', res);

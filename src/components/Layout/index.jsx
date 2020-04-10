@@ -1,5 +1,4 @@
 import React from 'react';
-// import { logout } from '../../clients/auth';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AppBar,
@@ -14,7 +13,6 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Button,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
