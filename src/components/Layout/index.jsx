@@ -13,14 +13,17 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Button,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes } from './../../routes';
+import { privateRoutes, adminRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
+import PrivateAdminRoute from '../PrivateAdminRoute';
+import { orange } from '@material-ui/core/colors';
 
 const drawerWidth = 240;
 
@@ -51,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  adminButton: {
+    color: theme.palette.getContrastText(orange[500]),
+    backgroundColor: orange[500],
+    '&:hover': {
+      backgroundColor: orange[700],
+    },
+    marginRight: theme.spacing(3),
   },
 }));
 
@@ -112,6 +123,17 @@ function ResponsiveDrawer(props) {
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
+          {props.isAdmin && (
+            <Button
+              className={classes.adminButton}
+              component={Link}
+              to='/admin'
+              color='secondary'
+              variant='contained'
+            >
+              Admin Panel
+            </Button>
+          )}
           <DropDown />
         </Toolbar>
       </AppBar>
@@ -151,6 +173,9 @@ function ResponsiveDrawer(props) {
           {privateRoutes.map((route, id) => (
             <Route {...route} key={id} />
           ))}
+          {adminRoutes.map((route, id) => (
+            <PrivateAdminRoute {...route} key={id} />
+          ))}
           <Redirect from='/' to='/home' />
         </Switch>
       </main>
@@ -161,6 +186,7 @@ function ResponsiveDrawer(props) {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    isAdmin: state.auth.isAdmin,
   };
 };
 
