@@ -7,8 +7,14 @@ const auth = {
   SET_USER_ADMIN_STATUS: 'SET_USER_ADMIN_STATUS',
 };
 
+const admin = {
+  SEARCH_USER_BY_EMAIL_SUCCESS: 'SEARCH_USER_BY_EMAIL_SUCCESS',
+  SEARCH_USER_BY_EMAIL_FAIL: 'SEARCH_USER_BY_EMAIL_FAIL',
+};
+
 const actionNames = {
   auth,
+  admin,
 };
 
 export default actionNames;

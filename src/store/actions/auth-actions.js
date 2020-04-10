@@ -18,10 +18,16 @@ export const register = ({ email, password, firstName, lastName }) => {
       const user = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
-      await db.collection('users').doc(user.user.uid).set({
-        firstName,
-        lastName,
-      });
+      await db
+        .collection('users')
+        .doc(user.user.uid)
+        .set({
+          name: {
+            firstName,
+            lastName,
+            displayName: `${firstName} ${lastName}`,
+          },
+        });
       dispatch({ type: REGISTER_SUCCESS });
     } catch (error) {
       dispatch({ type: REGISTER_ERROR, error });

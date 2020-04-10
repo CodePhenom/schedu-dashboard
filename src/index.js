@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+import { deepOrange, teal } from '@material-ui/core/colors';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, useSelector } from 'react-redux';
 import rootReducer from './store/reducers/root-reducer';
@@ -34,7 +34,8 @@ const rrfProps = {
 const theme = createMuiTheme({
   palette: {
     type: 'light',
-    primary: blue,
+    primary: teal,
+    secondary: deepOrange,
   },
 });
 

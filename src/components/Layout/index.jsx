@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 import { privateRoutes, adminRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
 import PrivateAdminRoute from '../PrivateAdminRoute';
-import { orange } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 
 const drawerWidth = 240;
 
@@ -56,11 +56,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   adminButton: {
-    color: theme.palette.getContrastText(orange[500]),
-    backgroundColor: orange[500],
-    '&:hover': {
-      backgroundColor: orange[700],
-    },
+    // color: theme.palette.getContrastText(grey[500]),
+    // backgroundColor: grey[500],
+    // '&:hover': {
+    //   backgroundColor: grey[700],
+    // },
     marginRight: theme.spacing(3),
   },
 }));
