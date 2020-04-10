@@ -33,7 +33,7 @@ const rrfProps = {
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
     primary: blue,
   },
 });
