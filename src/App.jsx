@@ -11,25 +11,35 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { setUserAdminStatus } from './store/actions/auth-actions';
 
 class App extends Component {
+  _isMounted = false;
+
   state = {
-    user: {},
+    isLoading: true,
   };
 
   componentDidMount() {
-    // this.authListener();
+    this._isMounted = true;
+    this.authListener();
   }
 
   authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user });
-      } else {
-        this.setState({ user });
-      }
-    });
+    if (this._isMounted) {
+      fire.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          const idTokenResult = await user.getIdTokenResult();
+          const isAdmin = idTokenResult.claims.admin;
+          this.props.setUserAdminStatus(isAdmin);
+        }
+      });
+    }
   };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     return (
@@ -53,4 +63,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  setUserAdminStatus: (isAdmin) => dispatch(setUserAdminStatus(isAdmin)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
