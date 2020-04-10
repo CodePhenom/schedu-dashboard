@@ -2,6 +2,7 @@ import Login from '../Components/Login';
 import Register from '../Components/Register';
 import Home from './../Components/Home';
 import Instructions from './../Components/Instructions';
+import Admin from './../Components/Admin';
 
 const publicRoutes = [
   {
@@ -25,4 +26,11 @@ const privateRoutes = [
   },
 ];
 
-export { publicRoutes, privateRoutes };
+const adminRoutes = [
+  {
+    path: '/admin',
+    component: Admin,
+  },
+];
+
+export { publicRoutes, privateRoutes, adminRoutes };
