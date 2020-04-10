@@ -3,7 +3,6 @@ import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { register } from './../store/actions/auth-actions';
-import firebase from './../config/firebase-config';
 
 const COMPONENT = 'Register';
 
