@@ -123,7 +123,7 @@ function ResponsiveDrawer(props) {
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
-          {props.isAdmin && (
+          {props.admin.isAdmin && (
             <Button
               className={classes.adminButton}
               component={Link}
@@ -186,7 +186,7 @@ function ResponsiveDrawer(props) {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    isAdmin: state.auth.isAdmin,
+    admin: state.admin,
   };
 };
 

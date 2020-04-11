@@ -11,7 +11,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUserAdminStatus } from './store/actions/auth-actions';
+import { setUserAdminStatus } from './store/actions/admin-actions';
 
 class App extends Component {
   _isMounted = false;

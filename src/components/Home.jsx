@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { httpClient } from '../clients/http';
 import { connect } from 'react-redux';
-import { addAdmin } from '../store/actions/auth-actions';
 
 class Home extends Component {
   sendRequest = async () => {
@@ -36,8 +35,4 @@ const mapStateToProps = (state) => ({
   profile: state.firebase.profile,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  addAdmin: (email) => dispatch(addAdmin(email)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);

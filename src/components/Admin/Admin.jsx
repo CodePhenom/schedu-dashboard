@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addAdmin } from '../../store/actions/auth-actions';
 import { findUserByEmail } from '../../store/actions/admin-actions';
 import { TextField, Button } from '@material-ui/core';
-import SearchUser from './SearchUser';
+import UserTable from './UserTable';
 
 class Home extends Component {
   state = {
@@ -18,7 +17,11 @@ class Home extends Component {
 
   handleSearch = (e) => {
     e.preventDefault();
-    this.props.findUserByEmail(this.state.email);
+    const { email } = this.state;
+    const trimmed = email.trim();
+    if (trimmed) {
+      this.props.findUserByEmail(this.state.email);
+    }
   };
 
   render() {
@@ -38,11 +41,12 @@ class Home extends Component {
             onClick={this.handleSearch}
             color='primary'
             variant='contained'
+            type='submit'
           >
             FIND
           </Button>
         </form>
-        <SearchUser />
+        <UserTable />
       </div>
     );
   }
@@ -55,7 +59,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addAdmin: (email) => dispatch(addAdmin(email)),
   findUserByEmail: (email) => dispatch(findUserByEmail(email)),
 });
 

@@ -6,7 +6,6 @@ const {
   SIGNOUT_SUCCESS,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
-  SET_USER_ADMIN_STATUS,
 } = actionNames.auth;
 
 export const register = ({ email, password, firstName, lastName }) => {
@@ -57,19 +56,5 @@ export const signOut = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-};
-
-export const setUserAdminStatus = (isAdmin) => {
-  return async (dispatch) => {
-    dispatch({ type: SET_USER_ADMIN_STATUS, isAdmin });
-  };
-};
-
-export const addAdmin = (email) => {
-  return async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-    const addAdminRole = firebase.functions().httpsCallable('addAdminRole');
-    await addAdminRole({ email });
   };
 };
