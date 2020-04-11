@@ -9,11 +9,13 @@ import {
   TableRow,
   Paper,
   Button,
+  Snackbar,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
   updateAdminRole,
   updateEnableDisableUser,
+  removeNotificationMessage,
 } from '../../store/actions/admin-actions';
 import { red, green } from '@material-ui/core/colors';
 
@@ -42,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 700,
   },
   buttonDisable: {
-    color: theme.palette.getContrastText(red[500]),
-    backgroundColor: red[500],
+    color: theme.palette.getContrastText(red[900]),
+    backgroundColor: red[900],
     '&:hover': {
       backgroundColor: red[700],
     },
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 const UserTable = (props) => {
   const classes = useStyles();
 
-  const { searchedUser } = props.admin;
+  const { searchedUser, notificationMessage } = props.admin;
 
   const handleupdateAdminRole = () => {
     props.updateAdminRole({
@@ -75,6 +77,10 @@ const UserTable = (props) => {
       uid: searchedUser.uid,
       isDisable: !searchedUser.disabled,
     });
+  };
+
+  const handleCloseSnackBar = (id) => {
+    props.removeNotificationMessage(id);
   };
 
   const renderEnableDisableButton = () => {
@@ -111,6 +117,13 @@ const UserTable = (props) => {
 
   return (
     <React.Fragment>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={notificationMessage}
+        onClose={handleCloseSnackBar}
+        message={notificationMessage}
+        autoHideDuration={5000}
+      ></Snackbar>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label='customized table'>
           <TableHead>
@@ -173,6 +186,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateAdminRole: (email) => dispatch(updateAdminRole(email)),
   updateEnableDisableUser: (data) => dispatch(updateEnableDisableUser(data)),
+  removeNotificationMessage: (id) => dispatch(removeNotificationMessage(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserTable);

@@ -8,6 +8,7 @@ const {
   UPDATE_USER_ADMIN_ROLE_FAIL,
   ENABLE_DISABLE_USER_SUCCESS,
   ENABLE_DISABLE_USER_FAIL,
+  REMOVE_NOTIFICATION_MESSAGE,
 } = actionNames.admin;
 
 export const findUserByEmail = (email) => {
@@ -79,5 +80,12 @@ export const updateEnableDisableUser = (data) => {
         },
       });
     }
+  };
+};
+
+export const removeNotificationMessage = (id) => {
+  console.log('id ', id);
+  return (dispatch) => {
+    dispatch({ type: REMOVE_NOTIFICATION_MESSAGE, data: { id } });
   };
 };

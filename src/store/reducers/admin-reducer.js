@@ -1,4 +1,5 @@
 import actionNames from './../actions/action-names';
+import { v4 as uuidv4 } from 'uuid';
 
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
@@ -8,6 +9,7 @@ const {
   ENABLE_DISABLE_USER_FAIL,
   UPDATE_USER_ADMIN_ROLE_SUCCESS,
   UPDATE_USER_ADMIN_ROLE_FAIL,
+  REMOVE_NOTIFICATION_MESSAGE,
 } = actionNames.admin;
 
 const initState = {
@@ -58,6 +60,11 @@ const adminReducer = (state = initState, action) => {
       return {
         ...state,
         adminError: action.data.errorMessage,
+      };
+    case REMOVE_NOTIFICATION_MESSAGE:
+      return {
+        ...state,
+        notificationMessage: null,
       };
     default:
       return state;
