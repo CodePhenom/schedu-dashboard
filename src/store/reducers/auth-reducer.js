@@ -6,12 +6,10 @@ const {
   SIGNOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_ERROR,
-  SET_USER_ADMIN_STATUS,
 } = actionNames.auth;
 
 const initState = {
   authError: null,
-  isAdmin: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -35,11 +33,6 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authError: null,
-      };
-    case SET_USER_ADMIN_STATUS:
-      return {
-        ...state,
-        isAdmin: action.isAdmin,
       };
     case SIGNOUT_SUCCESS:
       return state;
