@@ -5,11 +5,13 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Button,
   Snackbar,
+  List,
+  ListItem,
+  Typography,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
@@ -17,7 +19,7 @@ import {
   updateEnableDisableUser,
   removeNotificationMessage,
 } from '../../store/actions/admin-actions';
-import { red, green } from '@material-ui/core/colors';
+import { red, green, teal } from '@material-ui/core/colors';
 
 const StyledTableCell = withStyles((theme) => {
   return {
@@ -31,17 +33,29 @@ const StyledTableCell = withStyles((theme) => {
   };
 })(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.primary[50],
+const StyledTableRow = withStyles((theme) => {
+  return {
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.common.white,
+      },
     },
-  },
-}))(TableRow);
+  };
+})(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 700,
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  tableContainer: {
+    width: '48%',
+  },
+  userInfoKeyCell: {
+    color: 'grey',
+  },
+  userInfoValueCell: {
+    fontWeight: 600,
   },
   buttonDisable: {
     color: theme.palette.getContrastText(red[900]),
@@ -51,10 +65,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   buttonEnable: {
-    color: theme.palette.getContrastText(green[500]),
-    backgroundColor: green[500],
+    color: theme.palette.getContrastText(teal[500]),
+    backgroundColor: teal[500],
     '&:hover': {
-      backgroundColor: green[700],
+      backgroundColor: teal[700],
     },
   },
 }));
@@ -116,63 +130,112 @@ const UserTable = (props) => {
   };
 
   return (
-    <React.Fragment>
-      <Snackbar
+    <div className={classes.root}>
+      {/* <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={notificationMessage}
         onClose={handleCloseSnackBar}
         message={notificationMessage}
         autoHideDuration={5000}
-      ></Snackbar>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label='customized table'>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Email</StyledTableCell>
-              <StyledTableCell align='center'>Display Name</StyledTableCell>
-              <StyledTableCell align='center'>Provider(s)</StyledTableCell>
-              <StyledTableCell align='center'>Created At</StyledTableCell>
-              <StyledTableCell align='center'>Last SignIn At</StyledTableCell>
-              <StyledTableCell align='center'>Status</StyledTableCell>
-              <StyledTableCell align='center'>Admin</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <StyledTableRow>
-              <StyledTableCell component='th' scope='row'>
-                {searchedUser ? searchedUser.email : ''}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? searchedUser.displayName : ''}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? (
-                  <ul component='nav' aria-label='secondary mailbox folders'>
-                    {searchedUser.providerData.map((provider, id) => (
-                      <li key={id}>{provider.providerId}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  ''
-                )}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? searchedUser.metadata.creationTime : ''}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? searchedUser.metadata.lastSignInTime : ''}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? renderEnableDisableButton() : ''}
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                {searchedUser ? renderAdminUpdateButton() : ''}
-              </StyledTableCell>
-            </StyledTableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </React.Fragment>
+      ></Snackbar> */}
+      <div className={classes.tableContainer}>
+        <Typography className={classes.title} variant='h6' component='div'>
+          Personal Info
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableBody>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Email
+                </StyledTableCell>
+                <StyledTableCell
+                  scope='row'
+                  className={classes.userInfoValueCell}
+                >
+                  {searchedUser ? searchedUser.email : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Display Name
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {searchedUser ? searchedUser.displayName : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Provider
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {searchedUser ? (
+                    <List
+                      component='nsav'
+                      aria-label='secondary mailbox folders'
+                    >
+                      {searchedUser.providerData.map((provider, id) => (
+                        <ListItem
+                          key={id}
+                          className={classes.userInfoValueCell}
+                        >
+                          {provider.providerId}
+                        </ListItem>
+                      ))}
+                    </List>
+                  ) : (
+                    ''
+                  )}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Createion Time
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {searchedUser ? searchedUser.metadata.creationTime : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Last Login Time
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {searchedUser ? searchedUser.metadata.lastSignInTime : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className={classes.tableContainer}>
+        <Typography className={classes.title} variant='h6' component='div'>
+          Admin Actions
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableBody>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Status
+                </StyledTableCell>
+                <StyledTableCell>
+                  {searchedUser ? renderEnableDisableButton() : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Admin Role
+                </StyledTableCell>
+                <StyledTableCell>
+                  {searchedUser ? renderAdminUpdateButton() : ''}
+                </StyledTableCell>
+              </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
   );
 };
 

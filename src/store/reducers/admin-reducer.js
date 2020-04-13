@@ -1,5 +1,4 @@
 import actionNames from './../actions/action-names';
-import { v4 as uuidv4 } from 'uuid';
 
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,

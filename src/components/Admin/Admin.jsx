@@ -1,56 +1,72 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { findUserByEmail } from '../../store/actions/admin-actions';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Paper } from '@material-ui/core';
 import UserTable from './UserTable';
 
-class Home extends Component {
-  state = {
-    email: '',
+const useStyles = makeStyles((theme) => ({
+  textField: {
+    marginRight: 10,
+    width: 300,
+  },
+  input: {
+    fontSize: 16,
+    padding: 10,
+  },
+}));
+
+const Admin = (props) => {
+  const classes = useStyles();
+
+  const [email, setEmail] = useState('');
+
+  const handleChange = (e) => {
+    setEmail(e.target.value);
   };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSearch = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    const { email } = this.state;
     const trimmed = email.trim();
     if (trimmed) {
-      this.props.findUserByEmail(this.state.email);
+      props.findUserByEmail(email);
     }
   };
 
-  render() {
-    return (
-      <div>
+  return (
+    <div>
+      <Paper>
         <h1>ADMIN</h1>
         <form>
           <TextField
+            className={classes.textField}
             id='filled-search'
-            label='Search User by Email'
+            placeholder='Search User by Email'
             type='search'
-            variant='filled'
             name='email'
-            onChange={this.handleChange}
+            InputLabelProps={{ shrink: false }}
+            InputProps={{
+              disableUnderline: true,
+              classes: {
+                input: classes.input,
+              },
+            }}
+            onChange={handleChange}
           />
           <Button
-            onClick={this.handleSearch}
-            color='primary'
+            onClick={handleSearch}
             variant='contained'
             type='submit'
+            size='small'
           >
             FIND
           </Button>
         </form>
-        <UserTable />
-      </div>
-    );
-  }
-}
+      </Paper>
+      <UserTable />
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
@@ -62,4 +78,4 @@ const mapDispatchToProps = (dispatch) => ({
   findUserByEmail: (email) => dispatch(findUserByEmail(email)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Admin);

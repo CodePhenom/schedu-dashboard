@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import fire from './config/firebase-config';
 import PrivateRoute from './Components/PrivateRoute';
 import NotFound from './Components/NotFound';
-import AdminLayout from './Components/Layout';
+import Layout from './Components/Layout';
+import AdminLayout from './Components/Admin/Layout';
 import { publicRoutes } from './routes';
 import {
   BrowserRouter as Router,
@@ -12,6 +13,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUserAdminStatus } from './store/actions/admin-actions';
+import PrivateAdminRoute from './Components/PrivateAdminRoute';
 
 class App extends Component {
   _isMounted = false;
@@ -64,7 +66,8 @@ class App extends Component {
             return <Route {...route} key={id} />;
           })}
           <Route path='/not-found' component={NotFound} />
-          <PrivateRoute path='/' component={AdminLayout} />
+          <PrivateAdminRoute path='/admin' component={AdminLayout} />
+          <PrivateRoute path='/' component={Layout} />
           <Redirect to='/not-found' />
         </Switch>
       </Router>
