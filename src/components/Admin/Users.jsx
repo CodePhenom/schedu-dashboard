@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Admin = (props) => {
+const Users = (props) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ const Admin = (props) => {
   return (
     <div>
       <Paper>
-        <h1>ADMIN</h1>
+        <h1>Users</h1>
         <form>
           <TextField
             className={classes.textField}
@@ -78,4 +78,4 @@ const mapDispatchToProps = (dispatch) => ({
   findUserByEmail: (email) => dispatch(findUserByEmail(email)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

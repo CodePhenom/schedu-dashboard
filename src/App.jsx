@@ -15,6 +15,9 @@ import { connect } from 'react-redux';
 import { setUserAdminStatus } from './store/actions/admin-actions';
 import PrivateAdminRoute from './Components/PrivateAdminRoute';
 
+import { MuiThemeProvider } from '@material-ui/core';
+import themes from './themes';
+
 class App extends Component {
   _isMounted = false;
 
@@ -60,17 +63,19 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {publicRoutes.map((route, id) => {
-            return <Route {...route} key={id} />;
-          })}
-          <Route path='/not-found' component={NotFound} />
-          <PrivateAdminRoute path='/admin' component={AdminLayout} />
-          <PrivateRoute path='/' component={Layout} />
-          <Redirect to='/not-found' />
-        </Switch>
-      </Router>
+      <MuiThemeProvider theme={themes[this.props.theme.currentTheme]}>
+        <Router>
+          <Switch>
+            {publicRoutes.map((route, id) => {
+              return <Route {...route} key={id} />;
+            })}
+            <Route path='/not-found' component={NotFound} />
+            <PrivateAdminRoute path='/admin' component={AdminLayout} />
+            <PrivateRoute path='/' component={Layout} />
+            <Redirect to='/not-found' />
+          </Switch>
+        </Router>
+      </MuiThemeProvider>
     );
   }
 }
@@ -78,6 +83,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    theme: state.theme,
   };
 };
 
