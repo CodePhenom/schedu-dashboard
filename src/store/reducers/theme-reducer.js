@@ -10,7 +10,6 @@ const initState = {
 const themeReducer = (state = initState, action) => {
   switch (action.type) {
     case CHANGE_TO_DARK_THEME:
-      console.log('action ', action);
       return {
         ...state,
         currentTheme: themeOptions.dark,

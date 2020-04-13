@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AppBar,
@@ -24,7 +24,10 @@ import { privateRoutes, adminRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
 import PrivateAdminRoute from '../PrivateAdminRoute';
 import { grey } from '@material-ui/core/colors';
-import { changeToDarkTheme } from './../../store/actions/theme-action';
+import {
+  changeToLightTheme,
+  changeToDarkTheme,
+} from './../../store/actions/theme-action';
 
 const drawerWidth = 240;
 
@@ -70,6 +73,10 @@ const useStyles = makeStyles((theme) => {
 });
 
 function ResponsiveDrawer(props) {
+  useEffect(() => {
+    props.changeToLightTheme();
+  }, []);
+
   const {
     container,
     location: { pathname },
@@ -81,10 +88,6 @@ function ResponsiveDrawer(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleChangeToDarkTheme = () => {
-    props.changeToDarkTheme();
   };
 
   const drawer = (
@@ -138,7 +141,6 @@ function ResponsiveDrawer(props) {
               to='/admin'
               color='secondary'
               variant='contained'
-              onClick={handleChangeToDarkTheme}
             >
               Admin Panel
             </Button>
@@ -198,7 +200,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeToDarkTheme: () => dispatch(changeToDarkTheme()),
+    changeToLightTheme: () => dispatch(changeToLightTheme()),
   };
 };
 
