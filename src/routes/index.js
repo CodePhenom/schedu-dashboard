@@ -2,7 +2,8 @@ import Login from '../Components/Login';
 import Register from '../Components/Register';
 import Home from './../Components/Home';
 import Instructions from './../Components/Instructions';
-import Admin from '../Components/Admin/Admin';
+import AdminUsers from './../Components/Admin/Users';
+import AdminAdmins from './../Components/Admin/Admins';
 
 const publicRoutes = [
   {
@@ -28,8 +29,12 @@ const privateRoutes = [
 
 const adminRoutes = [
   {
-    path: '/admin',
-    component: Admin,
+    path: '/admin/users',
+    component: AdminUsers,
+  },
+  {
+    path: '/admin/admins',
+    component: AdminAdmins,
   },
 ];
 

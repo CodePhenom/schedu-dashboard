@@ -24,11 +24,11 @@ import { privateRoutes, adminRoutes } from '../../../routes';
 import DropDown from '../../Layout/DropDownMenu';
 import PrivateAdminRoute from '../../PrivateAdminRoute';
 import { grey } from '@material-ui/core/colors';
+import { changeToLightTheme } from './../../../store/actions/theme-action';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => {
-  console.log('theme ', theme);
   return {
     root: {
       display: 'flex',
@@ -83,6 +83,10 @@ function AdminLayout(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleChangeToLightTheme = () => {
+    props.changeToLightTheme();
+  };
+
   const drawer = (
     <div>
       {/* <Hidden smDown implementation='css'> */}
@@ -90,21 +94,25 @@ function AdminLayout(props) {
       {/* </Hidden> */}
       <Divider />
       <MenuList>
-        <MenuItem component={Link} to='/home' selected={'/home' === pathname}>
+        <MenuItem
+          component={Link}
+          to='/admin/users'
+          selected={'/admin/users' === pathname}
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary='Home' />
+          <ListItemText primary='Users' />
         </MenuItem>
         <MenuItem
           component={Link}
-          to='/instructions'
-          selected={'/instructions' === pathname}
+          to='/admin/admins'
+          selected={'/admin/admins' === pathname}
         >
           <ListItemIcon>
             <InfoOutlinedIcon />
           </ListItemIcon>
-          <ListItemText primary='Instructions' />
+          <ListItemText primary='Admins' />
         </MenuItem>
       </MenuList>
     </div>
@@ -131,11 +139,12 @@ function AdminLayout(props) {
             <Button
               className={classes.adminButton}
               component={Link}
-              to='/admin'
+              to='/'
               color='secondary'
               variant='contained'
+              onClick={handleChangeToLightTheme}
             >
-              Admin Panel
+              Back To User Panel
             </Button>
           )}
           <DropDown />
@@ -174,13 +183,10 @@ function AdminLayout(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          {privateRoutes.map((route, id) => (
-            <Route {...route} key={id} />
-          ))}
           {adminRoutes.map((route, id) => (
             <PrivateAdminRoute {...route} key={id} />
           ))}
-          <Redirect from='/' to='/home' />
+          {/* <Redirect from='/' to='/admin' /> */}
         </Switch>
       </main>
     </div>
@@ -194,4 +200,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AdminLayout);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeToLightTheme: () => dispatch(changeToLightTheme()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout);

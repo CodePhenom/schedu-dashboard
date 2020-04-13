@@ -17,9 +17,15 @@ const admin = {
   REMOVE_NOTIFICATION_MESSAGE: 'REMOVE_NOTIFICATION_MESSAGE',
 };
 
+const theme = {
+  CHANGE_TO_DARK_THEME: 'CHANGE_TO_DARK_THEME',
+  CHANGE_TO_LIGHT_THEME: 'CHANGE_TO_LIGHT_THEME',
+};
+
 const actionNames = {
   auth,
   admin,
+  theme,
 };
 
 export default actionNames;

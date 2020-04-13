@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import { deepOrange, teal, indigo, blueGrey } from '@material-ui/core/colors';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, useSelector } from 'react-redux';
 import rootReducer from './store/reducers/root-reducer';
@@ -31,14 +29,6 @@ const rrfProps = {
   dispatch: store.dispatch,
 };
 
-const theme = createMuiTheme({
-  palette: {
-    type: 'light',
-    primary: blueGrey,
-    secondary: indigo,
-  },
-});
-
 function AuthIsLoaded({ children }) {
   const auth = useSelector((state) => state.firebase.auth);
   if (!isLoaded(auth)) return null;
@@ -48,11 +38,9 @@ function AuthIsLoaded({ children }) {
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <MuiThemeProvider theme={theme}>
-        <AuthIsLoaded>
-          <App />
-        </AuthIsLoaded>
-      </MuiThemeProvider>
+      <AuthIsLoaded>
+        <App />
+      </AuthIsLoaded>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById('root')

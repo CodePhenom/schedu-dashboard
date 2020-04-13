@@ -24,11 +24,11 @@ import { privateRoutes, adminRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
 import PrivateAdminRoute from '../PrivateAdminRoute';
 import { grey } from '@material-ui/core/colors';
+import { changeToDarkTheme } from './../../store/actions/theme-action';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => {
-  console.log('theme ', theme);
   return {
     root: {
       display: 'flex',
@@ -83,6 +83,10 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleChangeToDarkTheme = () => {
+    props.changeToDarkTheme();
+  };
+
   const drawer = (
     <div>
       {/* <Hidden smDown implementation='css'> */}
@@ -134,6 +138,7 @@ function ResponsiveDrawer(props) {
               to='/admin'
               color='secondary'
               variant='contained'
+              onClick={handleChangeToDarkTheme}
             >
               Admin Panel
             </Button>
@@ -177,9 +182,6 @@ function ResponsiveDrawer(props) {
           {privateRoutes.map((route, id) => (
             <Route {...route} key={id} />
           ))}
-          {adminRoutes.map((route, id) => (
-            <PrivateAdminRoute {...route} key={id} />
-          ))}
           <Redirect from='/' to='/home' />
         </Switch>
       </main>
@@ -194,4 +196,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ResponsiveDrawer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeToDarkTheme: () => dispatch(changeToDarkTheme()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResponsiveDrawer);
