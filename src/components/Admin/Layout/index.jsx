@@ -20,9 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes, adminRoutes } from './../../routes';
-import DropDown from './DropDownMenu';
-import PrivateAdminRoute from '../PrivateAdminRoute';
+import { privateRoutes, adminRoutes } from '../../../routes';
+import DropDown from '../../Layout/DropDownMenu';
+import PrivateAdminRoute from '../../PrivateAdminRoute';
 import { grey } from '@material-ui/core/colors';
 
 const drawerWidth = 240;
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function ResponsiveDrawer(props) {
+function AdminLayout(props) {
   const {
     container,
     location: { pathname },
@@ -125,7 +125,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
-            SCHEDU
+            SCHEDU ADMIN
           </Typography>
           {props.admin.isAdmin && (
             <Button
@@ -194,4 +194,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ResponsiveDrawer);
+export default connect(mapStateToProps)(AdminLayout);
