@@ -7,11 +7,7 @@ class Home extends Component {
     try {
       const { accessToken } = this.props.auth.stsTokenManager;
       if (accessToken) {
-        const res = await httpClient.post('/users', null, {
-          headers: {
-            AuthToken: accessToken,
-          },
-        });
+        const res = await httpClient.post('/users');
         console.log('res ', res);
       }
     } catch (error) {

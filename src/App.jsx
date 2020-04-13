@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fire from './config/firebase-config';
+import firebase from './config/firebase-config';
 import PrivateRoute from './Components/PrivateRoute';
 import NotFound from './Components/NotFound';
 import Layout from './Components/Layout';
@@ -32,25 +32,32 @@ class App extends Component {
 
   authListener = () => {
     if (this._isMounted) {
-      fire.auth().onAuthStateChanged(async (user) => {
+      firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-          const idTokenResult = await user.getIdTokenResult();
-          const isAdmin = idTokenResult.claims.admin;
-          this.props.setUserAdminStatus(isAdmin);
+          try {
+            const idTokenResult = await user.getIdTokenResult();
+            const serializedIdTokenResult = JSON.stringify(idTokenResult);
+            localStorage.setItem('idTokenResult', serializedIdTokenResult);
+            const isAdmin = idTokenResult.claims.admin;
+            this.props.setUserAdminStatus(isAdmin);
 
-          // create the user in firestore if it does not exist there (for the Google or Facebook SSO)
-          const db = fire.firestore();
-          const usersRef = await db.collection('users').doc(user.uid);
-          const userDoc = await usersRef.get();
-          if (!userDoc.exists) {
-            await db
-              .collection('users')
-              .doc(user.uid)
-              .set({
-                name: {
-                  displayName: user.displayName,
-                },
-              });
+            // create the user in firestore if it does not exist there (for the Google or Facebook SSO)
+            const db = firebase.firestore();
+            const usersRef = await db.collection('users').doc(user.uid);
+            const userDoc = await usersRef.get();
+            if (!userDoc.exists) {
+              await db
+                .collection('users')
+                .doc(user.uid)
+                .set({
+                  name: {
+                    displayName: user.displayName,
+                  },
+                });
+            }
+          } catch (error) {
+            console.log(error);
+            localStorage.removeItem('firebaseIdToken');
           }
         }
       });

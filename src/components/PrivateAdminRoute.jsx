@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const PrivateAdminRoute = ({ component: Component, ...rest }) => {
-  const isAdmin = useSelector((state) => state.admin.isAdmin);
+  const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
+  const isAdmin = idTokenResult.claims.admin;
 
   return (
     <Route

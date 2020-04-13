@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AppBar,
@@ -20,15 +20,18 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes, adminRoutes } from '../../../routes';
+import { adminRoutes } from '../../../routes';
 import DropDown from '../../Layout/DropDownMenu';
 import PrivateAdminRoute from '../../PrivateAdminRoute';
-import { grey } from '@material-ui/core/colors';
-import { changeToLightTheme } from './../../../store/actions/theme-action';
+import {
+  changeToLightTheme,
+  changeToDarkTheme,
+} from './../../../store/actions/theme-action';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => {
+  console.log('theme ', theme);
   return {
     root: {
       display: 'flex',
@@ -70,6 +73,10 @@ const useStyles = makeStyles((theme) => {
 });
 
 function AdminLayout(props) {
+  useEffect(() => {
+    props.changeToDarkTheme();
+  }, []);
+
   const {
     container,
     location: { pathname },
@@ -81,10 +88,6 @@ function AdminLayout(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleChangeToLightTheme = () => {
-    props.changeToLightTheme();
   };
 
   const drawer = (
@@ -142,7 +145,6 @@ function AdminLayout(props) {
               to='/'
               color='secondary'
               variant='contained'
-              onClick={handleChangeToLightTheme}
             >
               Back To User Panel
             </Button>
@@ -202,6 +204,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    changeToDarkTheme: () => dispatch(changeToDarkTheme()),
     changeToLightTheme: () => dispatch(changeToLightTheme()),
   };
 };

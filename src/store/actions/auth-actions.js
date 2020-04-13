@@ -52,6 +52,7 @@ export const signOut = () => {
     const firebase = getFirebase();
     try {
       await firebase.auth().signOut();
+      localStorage.removeItem('idTokenResult');
       dispatch({ type: SIGNOUT_SUCCESS });
     } catch (error) {
       console.log(error);
