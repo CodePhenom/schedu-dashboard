@@ -131,13 +131,13 @@ const UserTable = (props) => {
 
   return (
     <div className={classes.root}>
-      {/* <Snackbar
+      <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={notificationMessage}
         onClose={handleCloseSnackBar}
         message={notificationMessage}
         autoHideDuration={5000}
-      ></Snackbar> */}
+      ></Snackbar>
       <div className={classes.tableContainer}>
         <Typography className={classes.title} variant='h6' component='div'>
           Personal Info
@@ -171,7 +171,7 @@ const UserTable = (props) => {
                 <StyledTableCell className={classes.userInfoValueCell}>
                   {searchedUser ? (
                     <List
-                      component='nsav'
+                      component='nav'
                       aria-label='secondary mailbox folders'
                     >
                       {searchedUser.providerData.map((provider, id) => (

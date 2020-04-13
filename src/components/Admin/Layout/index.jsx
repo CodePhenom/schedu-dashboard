@@ -97,6 +97,12 @@ function AdminLayout(props) {
       {/* </Hidden> */}
       <Divider />
       <MenuList>
+        <MenuItem component={Link} to='/admin' selected={'/admin' === pathname}>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary='Home' />
+        </MenuItem>
         <MenuItem
           component={Link}
           to='/admin/users'
@@ -188,7 +194,6 @@ function AdminLayout(props) {
           {adminRoutes.map((route, id) => (
             <PrivateAdminRoute {...route} key={id} />
           ))}
-          {/* <Redirect from='/' to='/admin' /> */}
         </Switch>
       </main>
     </div>

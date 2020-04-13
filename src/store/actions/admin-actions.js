@@ -1,4 +1,5 @@
 import actionNames from './action-names';
+import httpClient from '../../clients/http';
 
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
@@ -9,6 +10,8 @@ const {
   ENABLE_DISABLE_USER_SUCCESS,
   ENABLE_DISABLE_USER_FAIL,
   REMOVE_NOTIFICATION_MESSAGE,
+  FETCH_ADMINS_SUCCESS,
+  FETCH_ADMINS_FAIL,
 } = actionNames.admin;
 
 export const findUserByEmail = (email) => {
@@ -84,8 +87,41 @@ export const updateEnableDisableUser = (data) => {
 };
 
 export const removeNotificationMessage = (id) => {
-  console.log('id ', id);
   return (dispatch) => {
     dispatch({ type: REMOVE_NOTIFICATION_MESSAGE, data: { id } });
+  };
+};
+
+export const fetchAllAdmins = (accessToken) => {
+  console.log('accessToken actions', accessToken);
+  return async (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+
+    // const fetchAllAdmins = firebase.functions().httpsCallable('fetchAllAdmins');
+    try {
+      const res = await httpClient.get('/admins', {
+        headers: {
+          AuthToken: accessToken,
+        },
+      });
+      console.log('res ', res);
+      // const result = await fetchAllAdmins();
+      // console.log('result ', result);
+      // dispatch({
+      //   type: FETCH_ADMINS_SUCCESS,
+      //   data: {
+      //     isDisable: data.isDisable,
+      //     message: result.data.message,
+      //   },
+      // });
+    } catch (error) {
+      console.log('error ', error);
+      // dispatch({
+      //   type: ENABLE_DISABLE_USER_FAIL,
+      //   data: {
+      //     errorMessage: 'Unable to do the action',
+      //   },
+      // });
+    }
   };
 };

@@ -11,4 +11,4 @@ const httpClient = axios.create({
   },
 });
 
-export { httpClient };
+export default httpClient;
