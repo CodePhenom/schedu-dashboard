@@ -31,7 +31,6 @@ import {
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => {
-  console.log('theme ', theme);
   return {
     root: {
       display: 'flex',

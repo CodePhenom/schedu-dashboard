@@ -92,36 +92,24 @@ export const removeNotificationMessage = (id) => {
   };
 };
 
-export const fetchAllAdmins = (accessToken) => {
-  console.log('accessToken actions', accessToken);
-  return async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-
-    // const fetchAllAdmins = firebase.functions().httpsCallable('fetchAllAdmins');
+export const fetchAllAdmins = () => {
+  return async (dispatch) => {
     try {
-      const res = await httpClient.get('/admins', {
-        headers: {
-          AuthToken: accessToken,
+      const { data } = await httpClient.get('/admins');
+      dispatch({
+        type: FETCH_ADMINS_SUCCESS,
+        data: {
+          admins: data,
         },
       });
-      console.log('res ', res);
-      // const result = await fetchAllAdmins();
-      // console.log('result ', result);
-      // dispatch({
-      //   type: FETCH_ADMINS_SUCCESS,
-      //   data: {
-      //     isDisable: data.isDisable,
-      //     message: result.data.message,
-      //   },
-      // });
     } catch (error) {
       console.log('error ', error);
-      // dispatch({
-      //   type: ENABLE_DISABLE_USER_FAIL,
-      //   data: {
-      //     errorMessage: 'Unable to do the action',
-      //   },
-      // });
+      dispatch({
+        type: FETCH_ADMINS_FAIL,
+        data: {
+          errorMessage: 'Could not fetch admins',
+        },
+      });
     }
   };
 };

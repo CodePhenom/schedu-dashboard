@@ -6,10 +6,21 @@ import { fetchAllAdmins } from '../../store/actions/admin-actions';
 const Users = (props) => {
   const { accessToken } = props.auth.stsTokenManager;
   props.fetchAllAdmins(accessToken);
+
+  const renderAdmins = () => {
+    const { admins } = props.admin;
+    return admins.length ? (
+      admins.map((admin) => admin.name.displayName)
+    ) : (
+      <div>No Admin</div>
+    );
+  };
+
   return (
     <div>
       <Paper>
         <h1>Admins</h1>
+        {renderAdmins()}
       </Paper>
     </div>
   );

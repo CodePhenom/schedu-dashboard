@@ -9,11 +9,14 @@ const {
   UPDATE_USER_ADMIN_ROLE_SUCCESS,
   UPDATE_USER_ADMIN_ROLE_FAIL,
   REMOVE_NOTIFICATION_MESSAGE,
+  FETCH_ADMINS_SUCCESS,
+  FETCH_ADMINS_FAIL,
 } = actionNames.admin;
 
 const initState = {
   isAdmin: false,
   searchedUser: null,
+  admins: [],
   adminError: null,
   notificationMessage: null,
 };
@@ -64,6 +67,16 @@ const adminReducer = (state = initState, action) => {
       return {
         ...state,
         notificationMessage: null,
+      };
+    case FETCH_ADMINS_SUCCESS:
+      return {
+        ...state,
+        admins: action.data.admins,
+      };
+    case FETCH_ADMINS_FAIL:
+      return {
+        ...state,
+        notificationMessage: action.data.errorMessage,
       };
     default:
       return state;
