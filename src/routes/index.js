@@ -2,6 +2,7 @@ import Login from '../Components/Login';
 import Register from '../Components/Register';
 import Home from './../Components/Home';
 import Instructions from './../Components/Instructions';
+import AdminHome from './../Components/Admin/Home';
 import AdminUsers from './../Components/Admin/Users';
 import AdminAdmins from './../Components/Admin/Admins';
 
@@ -35,6 +36,10 @@ const adminRoutes = [
   {
     path: '/admin/admins',
     component: AdminAdmins,
+  },
+  {
+    path: '/admin',
+    component: AdminHome,
   },
 ];
 

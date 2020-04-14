@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { httpClient } from '../clients/http';
+import httpClient from '../clients/http';
 import { connect } from 'react-redux';
 
 class Home extends Component {

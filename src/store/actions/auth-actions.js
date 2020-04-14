@@ -21,6 +21,7 @@ export const register = ({ email, password, firstName, lastName }) => {
         .collection('users')
         .doc(user.user.uid)
         .set({
+          isAdmin: false,
           name: {
             firstName,
             lastName,
