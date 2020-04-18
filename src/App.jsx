@@ -14,7 +14,6 @@ import {
 import { connect } from 'react-redux';
 import { setUserAdminStatus } from './store/actions/admin-actions';
 import PrivateAdminRoute from './Components/PrivateAdminRoute';
-
 import { MuiThemeProvider } from '@material-ui/core';
 import themes from './themes';
 
@@ -38,23 +37,9 @@ class App extends Component {
             const idTokenResult = await user.getIdTokenResult();
             const serializedIdTokenResult = JSON.stringify(idTokenResult);
             localStorage.setItem('idTokenResult', serializedIdTokenResult);
+
             const isAdmin = idTokenResult.claims.admin;
             this.props.setUserAdminStatus(isAdmin);
-
-            // create the user in firestore if it does not exist there (for the Google or Facebook SSO)
-            const db = firebase.firestore();
-            const usersRef = await db.collection('users').doc(user.uid);
-            const userDoc = await usersRef.get();
-            if (!userDoc.exists) {
-              await db
-                .collection('users')
-                .doc(user.uid)
-                .set({
-                  name: {
-                    displayName: user.displayName,
-                  },
-                });
-            }
           } catch (error) {
             console.log(error);
             localStorage.removeItem('firebaseIdToken');

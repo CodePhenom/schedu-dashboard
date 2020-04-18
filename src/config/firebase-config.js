@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/functions';
+import authClient from '../clients/auth-client';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -20,6 +21,11 @@ export const uiConfig = {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
+  callbacks: {
+    signInSuccessWithAuthResult: (data) => {
+      authClient.createUser(data);
+    },
+  },
 };
 
 firebase.initializeApp(config);

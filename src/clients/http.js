@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
-const idToken = idTokenResult.token;
+let idToken = '';
+if (idTokenResult) {
+  idToken = idTokenResult.token;
+}
 
 const httpClient = axios.create({
   baseURL: process.env.REACT_APP_SCHEDU_API_BASE_URL,

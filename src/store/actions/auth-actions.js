@@ -1,4 +1,5 @@
 import actionNames from './action-names';
+import authClient from '../../clients/auth-client';
 
 const {
   LOGIN_SUCCESS,
@@ -11,23 +12,16 @@ const {
 export const register = ({ email, password, firstName, lastName }) => {
   return async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
-    const db = firebase.firestore();
 
     try {
       const user = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
-      await db
-        .collection('users')
-        .doc(user.user.uid)
-        .set({
-          isAdmin: false,
-          name: {
-            firstName,
-            lastName,
-            displayName: `${firstName} ${lastName}`,
-          },
-        });
+
+      await authClient.createUser({
+        user: { ...user.user, firstName, lastName },
+      });
+
       dispatch({ type: REGISTER_SUCCESS });
     } catch (error) {
       dispatch({ type: REGISTER_ERROR, error });
