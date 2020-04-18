@@ -12,7 +12,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUserAdminStatus } from './store/actions/admin-actions';
+import { setUserAdminStatus } from './store/actions/auth-actions';
 import PrivateAdminRoute from './Components/PrivateAdminRoute';
 import { MuiThemeProvider } from '@material-ui/core';
 import themes from './themes';
@@ -38,7 +38,7 @@ class App extends Component {
             const serializedIdTokenResult = JSON.stringify(idTokenResult);
             localStorage.setItem('idTokenResult', serializedIdTokenResult);
 
-            const isAdmin = idTokenResult.claims.admin;
+            const isAdmin = idTokenResult.claims['isAdmin'];
             this.props.setUserAdminStatus(isAdmin);
           } catch (error) {
             console.log(error);

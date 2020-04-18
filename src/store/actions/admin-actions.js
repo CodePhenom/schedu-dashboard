@@ -4,7 +4,6 @@ import httpClient from '../../clients/http';
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
   SEARCH_USER_BY_EMAIL_FAIL,
-  SET_USER_ADMIN_STATUS,
   UPDATE_USER_ADMIN_ROLE_SUCCESS,
   UPDATE_USER_ADMIN_ROLE_FAIL,
   ENABLE_DISABLE_USER_SUCCESS,
@@ -29,23 +28,22 @@ export const findUserByEmail = (email) => {
   };
 };
 
-export const setUserAdminStatus = (isAdmin) => {
-  return async (dispatch) => {
-    dispatch({ type: SET_USER_ADMIN_STATUS, isAdmin });
-  };
-};
-
 export const updateAdminRole = ({ uid, email, isAdmin }) => {
+  console.log('isAdmin ', isAdmin);
   return async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-    const updateAdminRole = firebase
-      .functions()
-      .httpsCallable('updateAdminRole');
+    // const firebase = getFirebase();
+    // const updateAdminRole = firebase
+    //   .functions()
+    //   .httpsCallable('updateAdminRole');
     try {
-      const { data } = await updateAdminRole({ uid, email, isAdmin });
+      const result = await httpClient.put('/admins/role', {
+        uid,
+        isAdmin,
+      });
+      // const { data } = await updateAdminRole({ uid, email, isAdmin });
       dispatch({
         type: UPDATE_USER_ADMIN_ROLE_SUCCESS,
-        data,
+        data: result.data,
       });
     } catch (error) {
       console.log('error ', error);

@@ -77,12 +77,16 @@ const UserTable = (props) => {
   const classes = useStyles();
 
   const { searchedUser, notificationMessage } = props.admin;
+  console.log('props.admin ', props.admin);
 
   const handleupdateAdminRole = () => {
+    console.log('UserTable', searchedUser.customClaims['isAdmin']);
     props.updateAdminRole({
       uid: searchedUser.uid,
       email: searchedUser.email,
-      isAdmin: !searchedUser.customClaims['admin'],
+      isAdmin: !searchedUser.customClaims
+        ? false
+        : !searchedUser.customClaims['isAdmin'],
     });
   };
 
@@ -114,7 +118,11 @@ const UserTable = (props) => {
   };
 
   const renderAdminUpdateButton = () => {
-    const isAdmin = searchedUser.customClaims['admin'];
+    let isAdmin = null;
+    if (searchedUser.customClaims) {
+      isAdmin = searchedUser.customClaims['isAdmin'];
+    }
+
     const buttonClass = isAdmin ? 'buttonDisable' : 'buttonEnable';
     const buttonLable = isAdmin ? 'Remove' : 'Add';
 
