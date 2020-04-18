@@ -7,6 +7,7 @@ const {
   SIGNOUT_SUCCESS,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
+  SET_USER_ADMIN_STATUS,
 } = actionNames.auth;
 
 export const register = ({ email, password, firstName, lastName }) => {
@@ -39,6 +40,12 @@ export const login = ({ email, password }) => {
     } catch (error) {
       dispatch({ type: LOGIN_ERROR, error });
     }
+  };
+};
+
+export const setUserAdminStatus = (isAdmin) => {
+  return async (dispatch) => {
+    dispatch({ type: SET_USER_ADMIN_STATUS, isAdmin });
   };
 };
 

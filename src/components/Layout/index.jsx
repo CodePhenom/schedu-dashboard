@@ -20,14 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes, adminRoutes } from './../../routes';
+import { privateRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
-import PrivateAdminRoute from '../PrivateAdminRoute';
-import { grey } from '@material-ui/core/colors';
-import {
-  changeToLightTheme,
-  changeToDarkTheme,
-} from './../../store/actions/theme-action';
+import { changeToLightTheme } from './../../store/actions/theme-action';
 
 const drawerWidth = 240;
 
@@ -62,11 +57,6 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(3),
     },
     adminButton: {
-      // color: theme.palette.getContrastText(grey[500]),
-      // backgroundColor: grey[500],
-      // '&:hover': {
-      //   backgroundColor: grey[700],
-      // },
       marginRight: theme.spacing(3),
     },
   };
@@ -134,7 +124,7 @@ function ResponsiveDrawer(props) {
           <Typography variant='h6' className={classes.appBarTitle} noWrap>
             SCHEDU
           </Typography>
-          {props.admin.isAdmin && (
+          {props.auth.isAdmin && (
             <Button
               className={classes.adminButton}
               component={Link}
@@ -193,7 +183,7 @@ function ResponsiveDrawer(props) {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    auth: state.auth,
     admin: state.admin,
   };
 };
