@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 import { fetchAllAdmins } from '../../store/actions/admin-actions';
 
 const Users = (props) => {
   const { accessToken } = props.auth.stsTokenManager;
-  props.fetchAllAdmins(accessToken);
+
+  useEffect(() => {
+    props.fetchAllAdmins(accessToken);
+  }, []);
 
   const renderAdmins = () => {
     const { admins } = props.admin;
