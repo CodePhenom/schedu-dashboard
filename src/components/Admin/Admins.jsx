@@ -4,16 +4,14 @@ import { Paper } from '@material-ui/core';
 import { fetchAllAdmins } from '../../store/actions/admin-actions';
 
 const Users = (props) => {
-  const { accessToken } = props.auth.stsTokenManager;
-
   useEffect(() => {
-    props.fetchAllAdmins(accessToken);
+    props.fetchAllAdmins();
   }, []);
 
   const renderAdmins = () => {
     const { admins } = props.admin;
     return admins.length ? (
-      admins.map((admin) => admin.name.displayName)
+      admins.map((admin) => admin.firstName)
     ) : (
       <div>No Admin</div>
     );
@@ -30,8 +28,6 @@ const Users = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.firebase.auth,
-  profile: state.firebase.profile,
   admin: state.admin,
 });
 

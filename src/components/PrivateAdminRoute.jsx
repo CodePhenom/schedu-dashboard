@@ -1,22 +1,18 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-const PrivateAdminRoute = ({ component: Component, auth, ...rest }) => {
+const PrivateAdminRoute = ({ component: Component, ...rest }) => {
+  const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
+  const isAdmin = idTokenResult && idTokenResult.claims.isAdmin;
+
   return (
     <Route
       {...rest}
       render={(props) => {
-        return auth.isAdmin ? <Component {...props} /> : <Redirect to='/' />;
+        return isAdmin ? <Component {...props} /> : <Redirect to='/' />;
       }}
     />
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
-};
-
-export default connect(mapStateToProps)(PrivateAdminRoute);
+export default PrivateAdminRoute;

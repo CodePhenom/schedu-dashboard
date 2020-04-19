@@ -1,5 +1,20 @@
 import actionNames from './action-names';
 import httpClient from '../../clients/http';
+import axios from 'axios';
+
+// const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
+// let idToken = '';
+// if (idTokenResult) {
+//   idToken = idTokenResult.token;
+// }
+
+// const httpClient = axios.create({
+//   baseURL: process.env.REACT_APP_SCHEDU_API_BASE_URL,
+//   json: true,
+//   headers: {
+//     AuthToken: idToken,
+//   },
+// });
 
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
@@ -11,6 +26,10 @@ const {
   REMOVE_NOTIFICATION_MESSAGE,
   FETCH_ADMINS_SUCCESS,
   FETCH_ADMINS_FAIL,
+  FETCH_USERS_COUNT_SUCCESS,
+  FETCH_USERS_COUNT_FAIL,
+  FETCH_ADMINS_COUNT_SUCCESS,
+  FETCH_ADMINS_COUNT_FAIL,
 } = actionNames.admin;
 
 export const findUserByEmail = (email) => {
@@ -29,18 +48,12 @@ export const findUserByEmail = (email) => {
 };
 
 export const updateAdminRole = ({ uid, email, isAdmin }) => {
-  console.log('isAdmin ', isAdmin);
-  return async (dispatch, getState, getFirebase) => {
-    // const firebase = getFirebase();
-    // const updateAdminRole = firebase
-    //   .functions()
-    //   .httpsCallable('updateAdminRole');
+  return async (dispatch) => {
     try {
       const result = await httpClient.put('/admins/role', {
         uid,
         isAdmin,
       });
-      // const { data } = await updateAdminRole({ uid, email, isAdmin });
       dispatch({
         type: UPDATE_USER_ADMIN_ROLE_SUCCESS,
         data: result.data,
@@ -106,6 +119,44 @@ export const fetchAllAdmins = () => {
         type: FETCH_ADMINS_FAIL,
         data: {
           errorMessage: 'Could not fetch admins',
+        },
+      });
+    }
+  };
+};
+
+export const fetchUsersCount = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await httpClient.get('/users/count');
+      dispatch({
+        type: FETCH_USERS_COUNT_SUCCESS,
+        data,
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_USERS_COUNT_FAIL,
+        data: {
+          errorMessage: 'Could not fetch users count',
+        },
+      });
+    }
+  };
+};
+
+export const fetchAdminsCount = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await httpClient.get('/admins/count');
+      dispatch({
+        type: FETCH_ADMINS_COUNT_SUCCESS,
+        data,
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_ADMINS_COUNT_FAIL,
+        data: {
+          errorMessage: 'Could not fetch admins count',
         },
       });
     }
