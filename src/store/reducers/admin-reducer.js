@@ -10,6 +10,10 @@ const {
   REMOVE_NOTIFICATION_MESSAGE,
   FETCH_ADMINS_SUCCESS,
   FETCH_ADMINS_FAIL,
+  FETCH_USERS_COUNT_SUCCESS,
+  FETCH_USERS_COUNT_FAIL,
+  FETCH_ADMINS_COUNT_SUCCESS,
+  FETCH_ADMINS_COUNT_FAIL,
 } = actionNames.admin;
 
 const initState = {
@@ -17,6 +21,8 @@ const initState = {
   admins: [],
   adminError: null,
   notificationMessage: null,
+  usersCount: null,
+  adminsCount: null,
 };
 
 const adminReducer = (state = initState, action) => {
@@ -25,6 +31,16 @@ const adminReducer = (state = initState, action) => {
       return {
         ...state,
         searchedUser: action.data,
+      };
+    case FETCH_USERS_COUNT_SUCCESS:
+      return {
+        ...state,
+        usersCount: action.data,
+      };
+    case FETCH_ADMINS_COUNT_SUCCESS:
+      return {
+        ...state,
+        adminsCount: action.data,
       };
     case SEARCH_USER_BY_EMAIL_FAIL:
       return {
@@ -41,6 +57,8 @@ const adminReducer = (state = initState, action) => {
         },
       };
     case ENABLE_DISABLE_USER_FAIL:
+    case FETCH_USERS_COUNT_FAIL:
+    case FETCH_ADMINS_COUNT_FAIL:
       return {
         ...state,
         adminError: action.data.errorMessage,

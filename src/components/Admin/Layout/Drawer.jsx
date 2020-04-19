@@ -10,6 +10,7 @@ import {
   Hidden,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -62,7 +63,7 @@ function MyDrawer(props) {
           selected={'/admin/users' === pathname}
         >
           <ListItemIcon>
-            <HomeIcon />
+            <PeopleOutlineIcon />
           </ListItemIcon>
           <ListItemText primary='Users' />
         </MenuItem>
