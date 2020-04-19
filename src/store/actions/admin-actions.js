@@ -1,20 +1,6 @@
 import actionNames from './action-names';
-import httpClient from '../../clients/http';
-import axios from 'axios';
-
-// const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
-// let idToken = '';
-// if (idTokenResult) {
-//   idToken = idTokenResult.token;
-// }
-
-// const httpClient = axios.create({
-//   baseURL: process.env.REACT_APP_SCHEDU_API_BASE_URL,
-//   json: true,
-//   headers: {
-//     AuthToken: idToken,
-//   },
-// });
+import httpClient from './../../clients/http';
+import { getToken } from './../../lib/get-token';
 
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
@@ -50,10 +36,16 @@ export const findUserByEmail = (email) => {
 export const updateAdminRole = ({ uid, email, isAdmin }) => {
   return async (dispatch) => {
     try {
-      const result = await httpClient.put('/admins/role', {
-        uid,
-        isAdmin,
-      });
+      const result = await httpClient.put(
+        '/admins/role',
+        {
+          uid,
+          isAdmin,
+        },
+        {
+          headers: { AuthToken: getToken() },
+        }
+      );
       dispatch({
         type: UPDATE_USER_ADMIN_ROLE_SUCCESS,
         data: result.data,
@@ -106,7 +98,9 @@ export const removeNotificationMessage = (id) => {
 export const fetchAllAdmins = () => {
   return async (dispatch) => {
     try {
-      const { data } = await httpClient.get('/admins');
+      const { data } = await httpClient.get('/admins', {
+        headers: { AuthToken: getToken() },
+      });
       dispatch({
         type: FETCH_ADMINS_SUCCESS,
         data: {
@@ -128,7 +122,9 @@ export const fetchAllAdmins = () => {
 export const fetchUsersCount = () => {
   return async (dispatch) => {
     try {
-      const { data } = await httpClient.get('/users/count');
+      const { data } = await httpClient.get('/users/count', {
+        headers: { AuthToken: getToken() },
+      });
       dispatch({
         type: FETCH_USERS_COUNT_SUCCESS,
         data,
@@ -147,7 +143,9 @@ export const fetchUsersCount = () => {
 export const fetchAdminsCount = () => {
   return async (dispatch) => {
     try {
-      const { data } = await httpClient.get('/admins/count');
+      const { data } = await httpClient.get('/admins/count', {
+        headers: { AuthToken: getToken() },
+      });
       dispatch({
         type: FETCH_ADMINS_COUNT_SUCCESS,
         data,
