@@ -9,8 +9,6 @@ import {
   Paper,
   Button,
   Snackbar,
-  List,
-  ListItem,
   Typography,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -19,7 +17,7 @@ import {
   updateEnableDisableUser,
   removeNotificationMessage,
 } from '../../store/actions/admin-actions';
-import { red, green, teal } from '@material-ui/core/colors';
+import { red, teal } from '@material-ui/core/colors';
 
 const StyledTableCell = withStyles((theme) => {
   return {
@@ -167,31 +165,7 @@ const UserTable = (props) => {
                   Display Name
                 </StyledTableCell>
                 <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? searchedUser.displayName : ''}
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell className={classes.userInfoKeyCell}>
-                  Provider
-                </StyledTableCell>
-                <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? (
-                    <List
-                      component='nav'
-                      aria-label='secondary mailbox folders'
-                    >
-                      {searchedUser.providerData.map((provider, id) => (
-                        <ListItem
-                          key={id}
-                          className={classes.userInfoValueCell}
-                        >
-                          {provider.providerId}
-                        </ListItem>
-                      ))}
-                    </List>
-                  ) : (
-                    ''
-                  )}
+                  {searchedUser ? searchedUser.firstName : ''}
                 </StyledTableCell>
               </StyledTableRow>
               <StyledTableRow>
@@ -199,15 +173,7 @@ const UserTable = (props) => {
                   Createion Time
                 </StyledTableCell>
                 <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? searchedUser.metadata.creationTime : ''}
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell className={classes.userInfoKeyCell}>
-                  Last Login Time
-                </StyledTableCell>
-                <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? searchedUser.metadata.lastSignInTime : ''}
+                  {searchedUser ? searchedUser.createdAt : ''}
                 </StyledTableCell>
               </StyledTableRow>
             </TableBody>

@@ -19,14 +19,13 @@ const {
 } = actionNames.admin;
 
 export const findUserByEmail = (email) => {
-  return async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-    const findUserByEmail = firebase
-      .functions()
-      .httpsCallable('findUserByEmail');
+  return async (dispatch) => {
     try {
-      const user = await findUserByEmail({ email });
-      dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data: user.data });
+      const { data } = await httpClient.get(`/users/email/${email}`, {
+        headers: { AuthToken: getToken() },
+      });
+      console.log('data ', data);
+      dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data });
     } catch (error) {
       dispatch({ type: SEARCH_USER_BY_EMAIL_FAIL, data: error });
     }
@@ -65,10 +64,9 @@ export const updateAdminRole = ({ uid, email, isAdmin }) => {
 export const updateEnableDisableUser = (input) => {
   return async (dispatch) => {
     try {
-      const { data } = await httpClient.put('/admins/status', input, {
+      const { data } = await httpClient.put('/users/status', input, {
         headers: { AuthToken: getToken() },
       });
-      console.log('data ', data);
       dispatch({
         type: ENABLE_DISABLE_USER_SUCCESS,
         data: {
@@ -77,7 +75,6 @@ export const updateEnableDisableUser = (input) => {
         },
       });
     } catch (error) {
-      console.log('error ', error);
       dispatch({
         type: ENABLE_DISABLE_USER_FAIL,
         data: {
