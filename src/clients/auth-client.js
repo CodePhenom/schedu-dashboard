@@ -1,12 +1,7 @@
-import axios from 'axios';
+import httpClient from './http';
 
 const GOOGLE_PROVIDER_ID = 'google.com';
 const FACEBOOK_PROVIDER_ID = 'facebook.com';
-
-const httpClient = axios.create({
-  baseURL: process.env.REACT_APP_SCHEDU_API_BASE_URL,
-  json: true,
-});
 
 const isGoogleProvider = ({ providerId }) => providerId === GOOGLE_PROVIDER_ID;
 const isFacebookProvider = ({ providerId }) =>

@@ -77,10 +77,8 @@ const UserTable = (props) => {
   const classes = useStyles();
 
   const { searchedUser, notificationMessage } = props.admin;
-  console.log('props.admin ', props.admin);
 
   const handleupdateAdminRole = () => {
-    console.log('UserTable', searchedUser.customClaims['isAdmin']);
     props.updateAdminRole({
       uid: searchedUser.uid,
       email: searchedUser.email,

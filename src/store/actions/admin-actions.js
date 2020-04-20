@@ -62,19 +62,18 @@ export const updateAdminRole = ({ uid, email, isAdmin }) => {
   };
 };
 
-export const updateEnableDisableUser = (data) => {
-  return async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-    const updateEnableDisableUser = firebase
-      .functions()
-      .httpsCallable('updateEnableDisableUser');
+export const updateEnableDisableUser = (input) => {
+  return async (dispatch) => {
     try {
-      const result = await updateEnableDisableUser(data);
+      const { data } = await httpClient.put('/admins/status', input, {
+        headers: { AuthToken: getToken() },
+      });
+      console.log('data ', data);
       dispatch({
         type: ENABLE_DISABLE_USER_SUCCESS,
         data: {
-          isDisable: data.isDisable,
-          message: result.data.message,
+          isDisable: input.isDisable,
+          message: data,
         },
       });
     } catch (error) {
@@ -108,7 +107,6 @@ export const fetchAllAdmins = () => {
         },
       });
     } catch (error) {
-      console.log('error ', error);
       dispatch({
         type: FETCH_ADMINS_FAIL,
         data: {
