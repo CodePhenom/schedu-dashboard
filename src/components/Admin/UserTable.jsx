@@ -9,8 +9,6 @@ import {
   Paper,
   Button,
   Snackbar,
-  List,
-  ListItem,
   Typography,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -19,7 +17,7 @@ import {
   updateEnableDisableUser,
   removeNotificationMessage,
 } from '../../store/actions/admin-actions';
-import { red, green, teal } from '@material-ui/core/colors';
+import { red, teal } from '@material-ui/core/colors';
 
 const StyledTableCell = withStyles((theme) => {
   return {
