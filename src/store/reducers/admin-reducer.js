@@ -3,6 +3,8 @@ import actionNames from './../actions/action-names';
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
   SEARCH_USER_BY_EMAIL_FAIL,
+  SEARCH_USER_BY_ID_SUCCESS,
+  SEARCH_USER_BY_ID_FAIL,
   ENABLE_DISABLE_USER_SUCCESS,
   ENABLE_DISABLE_USER_FAIL,
   UPDATE_USER_ADMIN_ROLE_SUCCESS,
@@ -25,51 +27,29 @@ const initState = {
   adminsCount: null,
 };
 
-const adminReducer = (state = initState, action) => {
-  switch (action.type) {
+const adminReducer = (state = initState, { type, payload }) => {
+  switch (type) {
     case SEARCH_USER_BY_EMAIL_SUCCESS:
       return {
         ...state,
-        searchedUser: action.data,
+        searchedUser: payload.data,
       };
-    case FETCH_USERS_COUNT_SUCCESS:
+    case SEARCH_USER_BY_ID_SUCCESS:
       return {
         ...state,
-        usersCount: action.data,
-      };
-    case FETCH_ADMINS_COUNT_SUCCESS:
-      return {
-        ...state,
-        adminsCount: action.data,
-      };
-    case SEARCH_USER_BY_EMAIL_FAIL:
-      return {
-        ...state,
-        adminError: action.data,
-      };
-    case ENABLE_DISABLE_USER_SUCCESS:
-      return {
-        ...state,
-        notificationMessage: action.data.message,
-        searchedUser: action.data,
-      };
-    case ENABLE_DISABLE_USER_FAIL:
-    case FETCH_USERS_COUNT_FAIL:
-    case FETCH_ADMINS_COUNT_FAIL:
-      return {
-        ...state,
-        adminError: action.data.errorMessage,
+        searchedUser: payload.data,
       };
     case UPDATE_USER_ADMIN_ROLE_SUCCESS:
       return {
         ...state,
-        notificationMessage: action.data.message,
-        searchedUser: action.data,
+        notificationMessage: 'Updated admin role',
+        searchedUser: payload.data,
       };
-    case UPDATE_USER_ADMIN_ROLE_FAIL:
+    case ENABLE_DISABLE_USER_SUCCESS:
       return {
         ...state,
-        adminError: action.data.errorMessage,
+        notificationMessage: 'Updated user status',
+        searchedUser: payload.data,
       };
     case REMOVE_NOTIFICATION_MESSAGE:
       return {
@@ -79,12 +59,28 @@ const adminReducer = (state = initState, action) => {
     case FETCH_ADMINS_SUCCESS:
       return {
         ...state,
-        admins: action.data.admins,
+        admins: payload.data,
       };
-    case FETCH_ADMINS_FAIL:
+    case FETCH_USERS_COUNT_SUCCESS:
       return {
         ...state,
-        notificationMessage: action.data.errorMessage,
+        usersCount: payload.data,
+      };
+    case FETCH_ADMINS_COUNT_SUCCESS:
+      return {
+        ...state,
+        adminsCount: payload.data,
+      };
+    case SEARCH_USER_BY_EMAIL_FAIL:
+    case SEARCH_USER_BY_ID_FAIL:
+    case UPDATE_USER_ADMIN_ROLE_FAIL:
+    case ENABLE_DISABLE_USER_FAIL:
+    case FETCH_ADMINS_FAIL:
+    case FETCH_USERS_COUNT_FAIL:
+    case FETCH_ADMINS_COUNT_FAIL:
+      return {
+        ...state,
+        adminError: payload.message,
       };
     default:
       return state;

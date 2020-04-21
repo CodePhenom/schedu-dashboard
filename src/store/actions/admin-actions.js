@@ -5,6 +5,8 @@ import { getToken } from './../../lib/get-token';
 const {
   SEARCH_USER_BY_EMAIL_SUCCESS,
   SEARCH_USER_BY_EMAIL_FAIL,
+  SEARCH_USER_BY_ID_SUCCESS,
+  SEARCH_USER_BY_ID_FAIL,
   UPDATE_USER_ADMIN_ROLE_SUCCESS,
   UPDATE_USER_ADMIN_ROLE_FAIL,
   ENABLE_DISABLE_USER_SUCCESS,
@@ -18,150 +20,123 @@ const {
   FETCH_ADMINS_COUNT_FAIL,
 } = actionNames.admin;
 
-export const findUserByEmail = (email) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.get(`/users/email/${email}`, {
+export const findUserByEmail = (email) => async (dispatch) => {
+  try {
+    const { data } = await httpClient.get(`/users/email/${email}`, {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, payload: { data } });
+  } catch ({ message }) {
+    dispatch({
+      type: SEARCH_USER_BY_EMAIL_FAIL,
+      payload: { message },
+    });
+  }
+};
+
+export const findUserById = (id) => async (dispatch) => {
+  try {
+    const { data } = await httpClient.get(`/users/id/${id}`, {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({ type: SEARCH_USER_BY_ID_SUCCESS, payload: { data } });
+  } catch (error) {
+    dispatch({ type: SEARCH_USER_BY_ID_FAIL, data: error });
+  }
+};
+
+export const updateAdminRole = ({ uid, isAdmin }) => async (dispatch) => {
+  try {
+    const { data } = await httpClient.put(
+      '/admins/role',
+      {
+        uid,
+        isAdmin,
+      },
+      {
         headers: { AuthToken: getToken() },
-      });
-      dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data });
-    } catch (error) {
-      dispatch({ type: SEARCH_USER_BY_EMAIL_FAIL, data: error });
-    }
-  };
+      }
+    );
+    dispatch({
+      type: UPDATE_USER_ADMIN_ROLE_SUCCESS,
+      payload: { data },
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: UPDATE_USER_ADMIN_ROLE_FAIL,
+      payload: { message },
+    });
+  }
 };
 
-export const findUserById = (id) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.get(`/users/id/${id}`, {
-        headers: { AuthToken: getToken() },
-      });
-      console.log('data ', data);
-      dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data });
-    } catch (error) {
-      dispatch({ type: SEARCH_USER_BY_EMAIL_FAIL, data: error });
-    }
-  };
+export const updateEnableDisableUser = (input) => async (dispatch) => {
+  try {
+    const { data } = await httpClient.put('/users/status', input, {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({
+      type: ENABLE_DISABLE_USER_SUCCESS,
+      payload: { data },
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: ENABLE_DISABLE_USER_FAIL,
+      payload: { message },
+    });
+  }
 };
 
-export const updateAdminRole = ({ uid, email, isAdmin }) => {
-  return async (dispatch) => {
-    try {
-      const result = await httpClient.put(
-        '/admins/role',
-        {
-          uid,
-          isAdmin,
-        },
-        {
-          headers: { AuthToken: getToken() },
-        }
-      );
-      dispatch({
-        type: UPDATE_USER_ADMIN_ROLE_SUCCESS,
-        data: result.data,
-      });
-    } catch (error) {
-      console.log('error ', error);
-      dispatch({
-        type: UPDATE_USER_ADMIN_ROLE_FAIL,
-        data: {
-          errorMessage: 'Unable to do this action',
-        },
-      });
-    }
-  };
+export const removeNotificationMessage = () => (dispatch) => {
+  dispatch({ type: REMOVE_NOTIFICATION_MESSAGE });
 };
 
-export const updateEnableDisableUser = (input) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.put('/users/status', input, {
-        headers: { AuthToken: getToken() },
-      });
-      dispatch({
-        type: ENABLE_DISABLE_USER_SUCCESS,
-        data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ENABLE_DISABLE_USER_FAIL,
-        data: {
-          errorMessage: 'Unable to do the action',
-        },
-      });
-    }
-  };
+export const fetchAllAdmins = () => async (dispatch) => {
+  try {
+    const { data } = await httpClient.get('/admins', {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({
+      type: FETCH_ADMINS_SUCCESS,
+      payload: { data },
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: FETCH_ADMINS_FAIL,
+      payload: { message },
+    });
+  }
 };
 
-export const removeNotificationMessage = (id) => {
-  return (dispatch) => {
-    dispatch({ type: REMOVE_NOTIFICATION_MESSAGE, data: { id } });
-  };
+export const fetchUsersCount = () => async (dispatch) => {
+  try {
+    const { data } = await httpClient.get('/users/count', {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({
+      type: FETCH_USERS_COUNT_SUCCESS,
+      payload: { data },
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: FETCH_USERS_COUNT_FAIL,
+      payload: { message },
+    });
+  }
 };
 
-export const fetchAllAdmins = () => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.get('/admins', {
-        headers: { AuthToken: getToken() },
-      });
-      dispatch({
-        type: FETCH_ADMINS_SUCCESS,
-        data: {
-          admins: data,
-        },
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ADMINS_FAIL,
-        data: {
-          errorMessage: 'Could not fetch admins',
-        },
-      });
-    }
-  };
-};
-
-export const fetchUsersCount = () => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.get('/users/count', {
-        headers: { AuthToken: getToken() },
-      });
-      dispatch({
-        type: FETCH_USERS_COUNT_SUCCESS,
-        data,
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_USERS_COUNT_FAIL,
-        data: {
-          errorMessage: 'Could not fetch users count',
-        },
-      });
-    }
-  };
-};
-
-export const fetchAdminsCount = () => {
-  return async (dispatch) => {
-    try {
-      const { data } = await httpClient.get('/admins/count', {
-        headers: { AuthToken: getToken() },
-      });
-      dispatch({
-        type: FETCH_ADMINS_COUNT_SUCCESS,
-        data,
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_ADMINS_COUNT_FAIL,
-        data: {
-          errorMessage: 'Could not fetch admins count',
-        },
-      });
-    }
-  };
+export const fetchAdminsCount = () => async (dispatch) => {
+  try {
+    const { data } = await httpClient.get('/admins/count', {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({
+      type: FETCH_ADMINS_COUNT_SUCCESS,
+      payload: { data },
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: FETCH_ADMINS_COUNT_FAIL,
+      data: { message },
+    });
+  }
 };
