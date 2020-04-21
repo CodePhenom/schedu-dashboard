@@ -14,6 +14,7 @@ export const createUser = async ({ user, additionalUserInfo }) => {
     id: user.uid,
     email: user.email,
     isAdmin: false,
+    isEnable: true,
     isEmailVerified: false,
   };
 
@@ -28,13 +29,14 @@ export const createUser = async ({ user, additionalUserInfo }) => {
 
   if (isGoogleProvider(additionalUserInfo)) {
     const {
-      profile: { given_name: firstName, family_name: lastName },
+      profile: { given_name: firstName, family_name: lastName, verified_email },
     } = additionalUserInfo;
 
     values = {
       ...values,
       firstName,
       lastName,
+      isEmailVerified: verified_email,
       photoUrl: user.photoURL,
     };
   }
@@ -48,6 +50,7 @@ export const createUser = async ({ user, additionalUserInfo }) => {
       ...values,
       firstName,
       lastName,
+      isEmailVerified: true,
       photoUrl: user.photoURL,
     };
   }

@@ -51,10 +51,7 @@ const adminReducer = (state = initState, action) => {
       return {
         ...state,
         notificationMessage: action.data.message,
-        searchedUser: {
-          ...state.searchedUser,
-          disabled: action.data.isDisable,
-        },
+        searchedUser: action.data,
       };
     case ENABLE_DISABLE_USER_FAIL:
     case FETCH_USERS_COUNT_FAIL:
