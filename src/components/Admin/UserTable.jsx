@@ -7,9 +7,9 @@ import {
   TableContainer,
   TableRow,
   Paper,
-  Button,
   Snackbar,
   Typography,
+  Switch,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
@@ -17,14 +17,9 @@ import {
   updateEnableDisableUser,
   removeNotificationMessage,
 } from '../../store/actions/admin-actions';
-import { red, teal } from '@material-ui/core/colors';
 
 const StyledTableCell = withStyles((theme) => {
   return {
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
     body: {
       fontSize: 12,
     },
@@ -34,40 +29,28 @@ const StyledTableCell = withStyles((theme) => {
 const StyledTableRow = withStyles((theme) => {
   return {
     root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.common.white,
-      },
+      backgroundColor: theme.palette.common.white,
     },
   };
 })(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'space-between',
+  root: {},
+  title: {
+    padding: 20,
+    borderBottom: `1px solid ${theme.palette.secondary['200']}`,
   },
   tableContainer: {
-    width: '48%',
+    marginBottom: 20,
   },
   userInfoKeyCell: {
-    color: 'grey',
+    fontWeight: 600,
+    width: 200,
+    color: theme.palette.secondary['800'],
   },
   userInfoValueCell: {
-    fontWeight: 600,
-  },
-  buttonDisable: {
-    color: theme.palette.getContrastText(red[900]),
-    backgroundColor: red[900],
-    '&:hover': {
-      backgroundColor: red[700],
-    },
-  },
-  buttonEnable: {
-    color: theme.palette.getContrastText(teal[500]),
-    backgroundColor: teal[500],
-    '&:hover': {
-      backgroundColor: teal[700],
-    },
+    fontWeight: 500,
+    color: theme.palette.secondary['900'],
   },
 }));
 
@@ -78,18 +61,16 @@ const UserTable = (props) => {
 
   const handleupdateAdminRole = () => {
     props.updateAdminRole({
-      uid: searchedUser.uid,
+      uid: searchedUser.id,
       email: searchedUser.email,
-      isAdmin: !searchedUser.customClaims
-        ? false
-        : !searchedUser.customClaims['isAdmin'],
+      isAdmin: !searchedUser.isAdmin,
     });
   };
 
   const handleUpdateEnableDisaleUser = () => {
     props.updateEnableDisableUser({
-      uid: searchedUser.uid,
-      isDisable: !searchedUser.disabled,
+      uid: searchedUser.id,
+      isEnable: !searchedUser.isEnable,
     });
   };
 
@@ -97,40 +78,8 @@ const UserTable = (props) => {
     props.removeNotificationMessage(id);
   };
 
-  const renderEnableDisableButton = () => {
-    const { disabled } = searchedUser;
-    const buttonClass = disabled ? 'buttonEnable' : 'buttonDisable';
-    const buttonLable = disabled ? 'Enable' : 'Disable';
-
-    return (
-      <Button
-        className={classes[buttonClass]}
-        size='small'
-        onClick={handleUpdateEnableDisaleUser}
-      >
-        {buttonLable}
-      </Button>
-    );
-  };
-
-  const renderAdminUpdateButton = () => {
-    let isAdmin = null;
-    if (searchedUser.customClaims) {
-      isAdmin = searchedUser.customClaims['isAdmin'];
-    }
-
-    const buttonClass = isAdmin ? 'buttonDisable' : 'buttonEnable';
-    const buttonLable = isAdmin ? 'Remove' : 'Add';
-
-    return (
-      <Button
-        className={classes[buttonClass]}
-        size='small'
-        onClick={handleupdateAdminRole}
-      >
-        {buttonLable}
-      </Button>
-    );
+  const renderUserInfoInTable = (key) => {
+    return searchedUser ? <Typography>{searchedUser[key]}</Typography> : '';
   };
 
   return (
@@ -142,10 +91,12 @@ const UserTable = (props) => {
         message={notificationMessage}
         autoHideDuration={5000}
       ></Snackbar>
-      <div className={classes.tableContainer}>
-        <Typography className={classes.title} variant='h6' component='div'>
-          Personal Info
-        </Typography>
+      <Paper className={classes.tableContainer}>
+        <div className={classes.title}>
+          <Typography variant='h6' component='div'>
+            User's Info
+          </Typography>
+        </div>
         <TableContainer component={Paper}>
           <Table>
             <TableBody>
@@ -157,33 +108,43 @@ const UserTable = (props) => {
                   scope='row'
                   className={classes.userInfoValueCell}
                 >
-                  {searchedUser ? searchedUser.email : ''}
+                  {renderUserInfoInTable('email')}
                 </StyledTableCell>
               </StyledTableRow>
               <StyledTableRow>
                 <StyledTableCell className={classes.userInfoKeyCell}>
-                  Display Name
+                  First Name
                 </StyledTableCell>
                 <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? searchedUser.firstName : ''}
+                  {renderUserInfoInTable('firstName')}
                 </StyledTableCell>
               </StyledTableRow>
               <StyledTableRow>
                 <StyledTableCell className={classes.userInfoKeyCell}>
-                  Createion Time
+                  Last Name
                 </StyledTableCell>
                 <StyledTableCell className={classes.userInfoValueCell}>
-                  {searchedUser ? searchedUser.createdAt : ''}
+                  {renderUserInfoInTable('lastName')}
+                </StyledTableCell>
+              </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Created At
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {renderUserInfoInTable('createdAt')}
                 </StyledTableCell>
               </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div className={classes.tableContainer}>
-        <Typography className={classes.title} variant='h6' component='div'>
-          Admin Actions
-        </Typography>
+      </Paper>
+      <Paper className={classes.tableContainer}>
+        <div className={classes.title}>
+          <Typography variant='h6' component='div'>
+            Admin Actions
+          </Typography>
+        </div>
         <TableContainer component={Paper}>
           <Table>
             <TableBody>
@@ -192,7 +153,15 @@ const UserTable = (props) => {
                   Status
                 </StyledTableCell>
                 <StyledTableCell>
-                  {searchedUser ? renderEnableDisableButton() : ''}
+                  {searchedUser ? (
+                    <Switch
+                      checked={searchedUser.isEnable}
+                      onChange={handleUpdateEnableDisaleUser}
+                      color='primary'
+                    />
+                  ) : (
+                    ''
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
               <StyledTableRow>
@@ -200,13 +169,21 @@ const UserTable = (props) => {
                   Admin Role
                 </StyledTableCell>
                 <StyledTableCell>
-                  {searchedUser ? renderAdminUpdateButton() : ''}
+                  {searchedUser ? (
+                    <Switch
+                      checked={searchedUser.isAdmin}
+                      onChange={handleupdateAdminRole}
+                      color='primary'
+                    />
+                  ) : (
+                    ''
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Paper>
     </div>
   );
 };

@@ -24,6 +24,19 @@ export const findUserByEmail = (email) => {
       const { data } = await httpClient.get(`/users/email/${email}`, {
         headers: { AuthToken: getToken() },
       });
+      dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: SEARCH_USER_BY_EMAIL_FAIL, data: error });
+    }
+  };
+};
+
+export const findUserById = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await httpClient.get(`/users/id/${id}`, {
+        headers: { AuthToken: getToken() },
+      });
       console.log('data ', data);
       dispatch({ type: SEARCH_USER_BY_EMAIL_SUCCESS, data });
     } catch (error) {
@@ -69,10 +82,7 @@ export const updateEnableDisableUser = (input) => {
       });
       dispatch({
         type: ENABLE_DISABLE_USER_SUCCESS,
-        data: {
-          isDisable: input.isDisable,
-          message: data,
-        },
+        data,
       });
     } catch (error) {
       dispatch({

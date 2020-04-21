@@ -1,9 +1,9 @@
-import { indigo, blueGrey } from '@material-ui/core/colors';
+import { grey, blue } from '@material-ui/core/colors';
 
 export default {
   palette: {
-    type: 'dark',
-    primary: blueGrey,
-    secondary: indigo,
+    type: 'light',
+    primary: blue,
+    secondary: grey,
   },
 };
