@@ -1,4 +1,4 @@
-import actionNames from './action-names';
+import actionNames from './action-types';
 import authClient from '../../clients/auth-client';
 import firebase from '../../config/firebase-config';
 

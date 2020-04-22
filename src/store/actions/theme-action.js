@@ -1,4 +1,4 @@
-import actionNames from './action-names';
+import actionNames from './action-types';
 
 const { CHANGE_TO_DARK_THEME, CHANGE_TO_LIGHT_THEME } = actionNames.theme;
 

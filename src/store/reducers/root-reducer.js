@@ -1,5 +1,5 @@
 import authReducer from './auth-reducer';
-import adminReducer from './admin-reducer';
+import adminReducer from '../slices/admin/reducer';
 import themeReducer from './theme-reducer';
 import { firebaseReducer } from 'react-redux-firebase';
 

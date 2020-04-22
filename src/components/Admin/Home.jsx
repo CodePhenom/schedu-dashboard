@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   fetchUsersCount,
   fetchAdminsCount,
-} from '../../store/actions/admin-actions';
+} from '../../store/slices/admin/actions';
 import InfoCard from './Components/InfoCard';
 import PeopleIcon from '@material-ui/icons/People';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';

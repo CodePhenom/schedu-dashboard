@@ -1,4 +1,4 @@
-import actionNames from './../actions/action-names';
+import actionNames from './../actions/action-types';
 
 const {
   LOGIN_SUCCESS,
