@@ -1,16 +1,6 @@
-import actionNames from './action-types';
-import authClient from '../../clients/auth-client';
-import firebase from '../../config/firebase-config';
-
-const {
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  SIGNOUT_SUCCESS,
-  SIGNOUT_ERROR,
-  REGISTER_ERROR,
-  REGISTER_SUCCESS,
-  SET_USER_ADMIN_STATUS,
-} = actionNames.auth;
+import authClient from '../../../clients/auth-client';
+import firebase from '../../../config/firebase-config';
+import * as actionCreators from './action-creators';
 
 export const register = (input) => async (dispatch) => {
   const { email, password, firstName, lastName } = input;
@@ -23,38 +13,32 @@ export const register = (input) => async (dispatch) => {
       user: { ...user.user, firstName, lastName },
     });
 
-    dispatch({ type: REGISTER_SUCCESS });
+    dispatch(actionCreators.registerSuccess());
   } catch ({ message }) {
-    dispatch({
-      type: REGISTER_ERROR,
-      payload: { message },
-    });
+    dispatch(actionCreators.authError(message));
   }
 };
 
 export const login = ({ email, password }) => async (dispatch) => {
   try {
     await firebase.auth().signInWithEmailAndPassword(email, password);
-    dispatch({ type: LOGIN_SUCCESS });
+    dispatch(actionCreators.loginSuccess());
   } catch ({ message }) {
-    dispatch({ type: LOGIN_ERROR, payload: { message } });
+    dispatch(actionCreators.authError(message));
   }
 };
 
 export const setUserAdminStatus = (isAdmin) => async (dispatch) => {
-  dispatch({ type: SET_USER_ADMIN_STATUS, payload: { isAdmin } });
+  dispatch(actionCreators.setUserAdminStatus(isAdmin));
 };
 
 export const signOut = () => async (dispatch) => {
   try {
     await firebase.auth().signOut();
     localStorage.removeItem('idTokenResult');
-    dispatch({ type: SIGNOUT_SUCCESS });
+    dispatch(actionCreators.signoutSuccess());
     window.location.assign('/signout');
   } catch ({ message }) {
-    dispatch({
-      type: SIGNOUT_ERROR,
-      payload: { message },
-    });
+    dispatch(actionCreators.authError(message));
   }
 };

@@ -1,14 +1,4 @@
-import actionNames from './../actions/action-types';
-
-const {
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  SIGNOUT_SUCCESS,
-  SIGNOUT_ERROR,
-  REGISTER_SUCCESS,
-  REGISTER_ERROR,
-  SET_USER_ADMIN_STATUS,
-} = actionNames.auth;
+import actionTypes from './action-types';
 
 const initState = {
   authError: null,
@@ -17,26 +7,26 @@ const initState = {
 
 const authReducer = (state = initState, { type, payload }) => {
   switch (type) {
-    case REGISTER_SUCCESS:
+    case actionTypes.REGISTER_SUCCESS:
       return {
         ...state,
         authError: null,
       };
-    case LOGIN_SUCCESS:
+    case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         authError: null,
       };
-    case SET_USER_ADMIN_STATUS:
+    case actionTypes.SET_USER_ADMIN_STATUS:
       return {
         ...state,
         isAdmin: payload.isAdmin,
       };
-    case SIGNOUT_SUCCESS:
+    case actionTypes.SIGNOUT_SUCCESS:
       return { ...state, isAdmin: false };
-    case SIGNOUT_ERROR:
-    case REGISTER_ERROR:
-    case LOGIN_ERROR:
+    case actionTypes.SIGNOUT_ERROR:
+    case actionTypes.REGISTER_ERROR:
+    case actionTypes.LOGIN_ERROR:
       return {
         ...state,
         authError: payload.message,

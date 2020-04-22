@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { login } from './../store/actions/auth-actions';
+import { login } from './../store/slices/auth/actions';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase, { uiConfig } from './../config/firebase-config';
 

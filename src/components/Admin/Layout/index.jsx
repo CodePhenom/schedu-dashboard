@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { adminRoutes } from '../../../routes';
 import PrivateAdminRoute from '../../PrivateAdminRoute';
-import { changeToDarkTheme } from './../../../store/actions/theme-action';
+import { changeToAdminTheme } from './../../../store/slices/theme/actions';
 import MyAppBar from './AppBar';
 import MyDrawer from './Drawer';
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
 
 function AdminLayout(props) {
   useEffect(() => {
-    props.changeToDarkTheme();
+    props.changeToAdminTheme();
   }, []);
 
   const classes = useStyles();
@@ -47,7 +47,7 @@ function AdminLayout(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeToDarkTheme: () => dispatch(changeToDarkTheme()),
+    changeToAdminTheme: () => dispatch(changeToAdminTheme()),
   };
 };
 

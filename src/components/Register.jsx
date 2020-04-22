@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { register } from './../store/actions/auth-actions';
+import { register } from './../store/slices/auth/actions';
 
 const COMPONENT = 'Register';
 

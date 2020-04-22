@@ -12,7 +12,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUserAdminStatus } from './store/actions/auth-actions';
+import { setUserAdminStatus } from './store/slices/auth/actions';
 import PrivateAdminRoute from './Components/PrivateAdminRoute';
 import { MuiThemeProvider } from '@material-ui/core';
 import themes from './themes';

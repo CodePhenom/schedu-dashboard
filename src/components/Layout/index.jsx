@@ -22,7 +22,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { privateRoutes } from './../../routes';
 import DropDown from './DropDownMenu';
-import { changeToLightTheme } from './../../store/actions/theme-action';
+import { changeToUserTheme } from './../../store/slices/theme/actions';
 
 const drawerWidth = 240;
 
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => {
 
 function ResponsiveDrawer(props) {
   useEffect(() => {
-    props.changeToLightTheme();
+    props.changeToUserTheme();
   }, []);
 
   const {
@@ -190,7 +190,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeToLightTheme: () => dispatch(changeToLightTheme()),
+    changeToUserTheme: () => dispatch(changeToUserTheme()),
   };
 };
 
