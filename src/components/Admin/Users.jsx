@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   findUserByEmail,
   findUserById,
-} from '../../store/actions/admin-actions';
+} from '../../store/slices/admin/actions';
 import { TextField, Button, Paper, NativeSelect } from '@material-ui/core';
 import UserTable from './UserTable';
 

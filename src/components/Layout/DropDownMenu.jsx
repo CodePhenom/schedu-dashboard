@@ -8,7 +8,7 @@ import {
   Divider,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { signOut } from '../../store/actions/auth-actions';
+import { signOut } from '../../store/slices/auth/actions';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({

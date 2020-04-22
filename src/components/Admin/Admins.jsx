@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
-import { fetchAllAdmins } from '../../store/actions/admin-actions';
+import { fetchAllAdmins } from '../../store/slices/admin/actions';
 
 const Users = (props) => {
   useEffect(() => {

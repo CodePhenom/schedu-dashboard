@@ -19,7 +19,7 @@ import {
   updateEnableDisableUser,
   removeNotificationMessage,
   adminDeletesUser,
-} from '../../store/actions/admin-actions';
+} from '../../store/slices/admin/actions';
 
 const StyledTableCell = withStyles((theme) => {
   return {

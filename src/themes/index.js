@@ -1,16 +1,16 @@
 import { createMuiTheme } from '@material-ui/core';
-import lightTheme from './lightTheme';
-import darkTheme from './darkTheme';
+import adminTheme from './adminTheme';
+import userTheme from './userTheme';
 
-const dark = createMuiTheme(darkTheme);
-const light = createMuiTheme(lightTheme);
+const admin = createMuiTheme(adminTheme);
+const user = createMuiTheme(userTheme);
 
 export const themeOptions = {
-  dark: 'dark',
-  light: 'light',
+  admin: 'admin',
+  user: 'user',
 };
 
 export default {
-  light,
-  dark,
+  admin,
+  user,
 };
