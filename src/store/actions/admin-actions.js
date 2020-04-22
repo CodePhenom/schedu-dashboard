@@ -18,6 +18,8 @@ const {
   FETCH_USERS_COUNT_FAIL,
   FETCH_ADMINS_COUNT_SUCCESS,
   FETCH_ADMINS_COUNT_FAIL,
+  ADMIN_DELETES_USER_SUCCESS,
+  ADMIN_DELETES_USER_FAIL,
 } = actionNames.admin;
 
 export const findUserByEmail = (email) => async (dispatch) => {
@@ -137,6 +139,22 @@ export const fetchAdminsCount = () => async (dispatch) => {
     dispatch({
       type: FETCH_ADMINS_COUNT_FAIL,
       data: { message },
+    });
+  }
+};
+
+export const adminDeletesUser = (id) => async (dispatch) => {
+  try {
+    await httpClient.delete(`/users/${id}`, {
+      headers: { AuthToken: getToken() },
+    });
+    dispatch({
+      type: ADMIN_DELETES_USER_SUCCESS,
+    });
+  } catch ({ message }) {
+    dispatch({
+      type: ADMIN_DELETES_USER_FAIL,
+      paylaod: { message },
     });
   }
 };

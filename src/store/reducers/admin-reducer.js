@@ -16,6 +16,8 @@ const {
   FETCH_USERS_COUNT_FAIL,
   FETCH_ADMINS_COUNT_SUCCESS,
   FETCH_ADMINS_COUNT_FAIL,
+  ADMIN_DELETES_USER_SUCCESS,
+  ADMIN_DELETES_USER_FAIL,
 } = actionNames.admin;
 
 const initState = {
@@ -49,7 +51,10 @@ const adminReducer = (state = initState, { type, payload }) => {
       return {
         ...state,
         notificationMessage: 'Updated user status',
-        searchedUser: payload.data,
+        searchedUser: {
+          ...state.searchedUser,
+          isEnable: payload.data.isEnable,
+        },
       };
     case REMOVE_NOTIFICATION_MESSAGE:
       return {
@@ -71,6 +76,11 @@ const adminReducer = (state = initState, { type, payload }) => {
         ...state,
         adminsCount: payload.data,
       };
+    case ADMIN_DELETES_USER_SUCCESS:
+      return {
+        ...state,
+        searchedUser: null,
+      };
     case SEARCH_USER_BY_EMAIL_FAIL:
     case SEARCH_USER_BY_ID_FAIL:
     case UPDATE_USER_ADMIN_ROLE_FAIL:
@@ -78,6 +88,7 @@ const adminReducer = (state = initState, { type, payload }) => {
     case FETCH_ADMINS_FAIL:
     case FETCH_USERS_COUNT_FAIL:
     case FETCH_ADMINS_COUNT_FAIL:
+    case ADMIN_DELETES_USER_FAIL:
       return {
         ...state,
         adminError: payload.message,
