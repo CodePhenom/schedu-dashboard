@@ -10,12 +10,15 @@ import {
   Snackbar,
   Typography,
   Switch,
+  Button,
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
 import {
   updateAdminRole,
   updateEnableDisableUser,
   removeNotificationMessage,
+  adminDeletesUser,
 } from '../../store/actions/admin-actions';
 
 const StyledTableCell = withStyles((theme) => {
@@ -52,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: theme.palette.secondary['900'],
   },
+  deleteButton: {
+    margin: theme.spacing(1),
+    backgroundColor: 'red',
+  },
 }));
 
 const UserTable = (props) => {
@@ -80,6 +87,10 @@ const UserTable = (props) => {
 
   const renderUserInfoInTable = (key) => {
     return searchedUser ? <Typography>{searchedUser[key]}</Typography> : '';
+  };
+
+  const handleDeleteUser = () => {
+    props.adminDeletesUser(searchedUser.id);
   };
 
   return (
@@ -180,6 +191,24 @@ const UserTable = (props) => {
                   )}
                 </StyledTableCell>
               </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Delete User
+                </StyledTableCell>
+                <StyledTableCell>
+                  {searchedUser && (
+                    <Button
+                      variant='contained'
+                      color='secondary'
+                      className={classes.deleteButton}
+                      startIcon={<DeleteIcon />}
+                      onClick={handleDeleteUser}
+                    >
+                      Delete
+                    </Button>
+                  )}
+                </StyledTableCell>
+              </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
@@ -199,6 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateAdminRole: (email) => dispatch(updateAdminRole(email)),
   updateEnableDisableUser: (data) => dispatch(updateEnableDisableUser(data)),
   removeNotificationMessage: (id) => dispatch(removeNotificationMessage(id)),
+  adminDeletesUser: (id) => dispatch(adminDeletesUser(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserTable);
