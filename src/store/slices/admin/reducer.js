@@ -41,7 +41,7 @@ const adminReducer = (state = initState, { type, payload }) => {
         ...state,
         notificationMessage: null,
       };
-    case actionTypes.FETCH_ADMINS_SUCCESS:
+    case actionTypes.FETCH_ALL_ADMINS_SUCCESS:
       return {
         ...state,
         admins: payload.data,
