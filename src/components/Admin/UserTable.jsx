@@ -68,7 +68,7 @@ const UserTable = (props) => {
 
   const handleupdateAdminRole = () => {
     props.updateAdminRole({
-      uid: searchedUser.id,
+      id: searchedUser.id,
       email: searchedUser.email,
       isAdmin: !searchedUser.isAdmin,
     });
@@ -76,7 +76,7 @@ const UserTable = (props) => {
 
   const handleUpdateEnableDisaleUser = () => {
     props.updateEnableDisableUser({
-      uid: searchedUser.id,
+      id: searchedUser.id,
       isEnable: !searchedUser.isEnable,
     });
   };
@@ -97,7 +97,7 @@ const UserTable = (props) => {
     <div className={classes.root}>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={notificationMessage}
+        open={Boolean(notificationMessage)}
         onClose={handleCloseSnackBar}
         message={notificationMessage}
         autoHideDuration={5000}

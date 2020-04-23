@@ -98,7 +98,7 @@ const Users = (props) => {
             type='search'
             name='email'
             InputLabelProps={{ shrink: false }}
-            InputProps={{
+            inputprops={{
               disableUnderline: true,
               classes: {
                 input: classes.input,
@@ -107,13 +107,13 @@ const Users = (props) => {
             onChange={handleChangeEmail}
           />
           <NativeSelect
-            native
+            native='true'
             className={classes.select}
             defaultValue='id'
             placeholder='Search By'
             id='grouped-native-select'
             onChange={handleChangeSearchBy}
-            InputProps={{
+            inputprops={{
               disableUnderline: true,
               classes: {
                 input: classes.input,

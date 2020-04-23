@@ -2,7 +2,7 @@ import actionTypes from './action-types';
 import { themeOptions } from './../../../themes/index';
 
 const initState = {
-  currentTheme: 'light',
+  currentTheme: 'user',
 };
 
 const themeReducer = (state = initState, action) => {

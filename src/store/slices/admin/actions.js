@@ -4,7 +4,7 @@ import * as actionCreators from './action-creators';
 
 export const findUserByEmail = (email) => async (dispatch) => {
   try {
-    const { data } = await httpClient.get(`/users/email/${email}`, {
+    const { data } = await httpClient.get(`/admins/users/email/${email}`, {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.findUserByEmailSuccess(data));
@@ -15,7 +15,7 @@ export const findUserByEmail = (email) => async (dispatch) => {
 
 export const findUserById = (id) => async (dispatch) => {
   try {
-    const { data } = await httpClient.get(`/users/id/${id}`, {
+    const { data } = await httpClient.get(`/admins/users/${id}`, {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.findUserByIdSuccess(data));
@@ -37,7 +37,7 @@ export const updateAdminRole = (input) => async (dispatch) => {
 
 export const updateEnableDisableUser = (input) => async (dispatch) => {
   try {
-    const { data } = await httpClient.put('/users/status', input, {
+    const { data } = await httpClient.put('/admins/users/status', input, {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.updateEnableDisableUserSuccess(data));
@@ -59,7 +59,7 @@ export const fetchAllAdmins = () => async (dispatch) => {
 
 export const fetchUsersCount = () => async (dispatch) => {
   try {
-    const { data } = await httpClient.get('/users/count', {
+    const { data } = await httpClient.get('/admins/users/count', {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.fetchUsersCountSuccess(data));
@@ -81,7 +81,7 @@ export const fetchAdminsCount = () => async (dispatch) => {
 
 export const adminDeletesUser = (id) => async (dispatch) => {
   try {
-    await httpClient.delete(`/users/${id}`, {
+    await httpClient.delete(`/admins/users/${id}`, {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.adminDeletesUserSuccess());
