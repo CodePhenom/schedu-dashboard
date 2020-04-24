@@ -10,7 +10,9 @@ export const register = (input) => async (dispatch) => {
       .createUserWithEmailAndPassword(email, password);
 
     await authClient.createUser({
-      user: { ...user.user, firstName, lastName },
+      ...user,
+      firstName,
+      lastName,
     });
 
     dispatch(actionCreators.registerSuccess());
