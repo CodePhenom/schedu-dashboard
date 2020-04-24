@@ -1,4 +1,5 @@
 import httpClient from './http';
+import { db } from '../config/firebase-config';
 
 const GOOGLE_PROVIDER_ID = 'google.com';
 const FACEBOOK_PROVIDER_ID = 'facebook.com';
@@ -11,11 +12,7 @@ export const createUser = async ({ user, additionalUserInfo }) => {
   const isProvider = Boolean(additionalUserInfo);
 
   let values = {
-    id: user.uid,
-    email: user.email,
     isAdmin: false,
-    isEnable: true,
-    isEmailVerified: false,
   };
 
   if (!isProvider) {
@@ -24,20 +21,17 @@ export const createUser = async ({ user, additionalUserInfo }) => {
       firstName: user.firstName,
       lastName: user.lastName,
     };
-    return httpClient.post('/users', values);
   }
 
   if (isGoogleProvider(additionalUserInfo)) {
     const {
-      profile: { given_name: firstName, family_name: lastName, verified_email },
+      profile: { given_name: firstName, family_name: lastName },
     } = additionalUserInfo;
 
     values = {
       ...values,
       firstName,
       lastName,
-      isEmailVerified: verified_email,
-      photoUrl: user.photoURL,
     };
   }
 
@@ -50,12 +44,13 @@ export const createUser = async ({ user, additionalUserInfo }) => {
       ...values,
       firstName,
       lastName,
-      isEmailVerified: true,
-      photoUrl: user.photoURL,
     };
   }
 
-  return httpClient.post('/users', values);
+  const currentUser = await db.collection('users').doc(user.uid).get();
+  if (!currentUser.exists) {
+    await db.collection('users').doc(user.uid).set(values);
+  }
 };
 
 export default {
