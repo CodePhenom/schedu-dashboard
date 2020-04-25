@@ -3,7 +3,7 @@ import actionTypes from './action-types';
 const initState = {
   searchedUser: null,
   admins: [],
-  adminError: null,
+  adminErrorMessage: null,
   notificationMessage: null,
   usersCount: null,
   adminsCount: null,
@@ -36,11 +36,6 @@ const adminReducer = (state = initState, { type, payload }) => {
           isEnable: payload.data.isEnable,
         },
       };
-    case actionTypes.REMOVE_NOTIFICATION_MESSAGE:
-      return {
-        ...state,
-        notificationMessage: null,
-      };
     case actionTypes.FETCH_ALL_ADMINS_SUCCESS:
       return {
         ...state,
@@ -61,17 +56,15 @@ const adminReducer = (state = initState, { type, payload }) => {
         ...state,
         searchedUser: null,
       };
-    case actionTypes.SEARCH_USER_BY_EMAIL_FAIL:
-    case actionTypes.SEARCH_USER_BY_ID_FAIL:
-    case actionTypes.UPDATE_USER_ADMIN_ROLE_FAIL:
-    case actionTypes.ENABLE_DISABLE_USER_FAIL:
-    case actionTypes.FETCH_ADMINS_FAIL:
-    case actionTypes.FETCH_USERS_COUNT_FAIL:
-    case actionTypes.FETCH_ADMINS_COUNT_FAIL:
-    case actionTypes.ADMIN_DELETES_USER_FAIL:
+    case actionTypes.SET_ADMIN_ERROR_MESSAGE:
       return {
         ...state,
-        adminError: payload.message,
+        adminErrorMessage: payload.message,
+      };
+    case actionTypes.REMOVE_ADMIN_ERROR_MESSAGE:
+      return {
+        ...state,
+        adminErrorMessage: null,
       };
     default:
       return state;
