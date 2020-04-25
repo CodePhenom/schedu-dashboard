@@ -56,11 +56,6 @@ const DropDownMenu = (props) => {
     profile,
   } = props;
 
-  let displayName = props.auth.displayName;
-  if (!displayName && profile.name) {
-    displayName = profile.name.displayName;
-  }
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -70,17 +65,15 @@ const DropDownMenu = (props) => {
   };
 
   const getUppercaseIntials = (firstName, lastName) => {
-    return 'name'; // firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+    return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
   };
 
   const renderAvatar = () => {
-    const { name } = profile;
+    const { firstName, lastName } = profile;
     return Boolean(photoURL) ? (
       <Avatar className={classes.avatar} aria-haspopup='true' src={photoURL} />
     ) : (
-      <Avatar>
-        {name && getUppercaseIntials(name.firstName, name.lastName)}
-      </Avatar>
+      <Avatar>{firstName && getUppercaseIntials(firstName, lastName)}</Avatar>
     );
   };
 
@@ -104,7 +97,7 @@ const DropDownMenu = (props) => {
           <Paper className={classes.paper} elevation={0}>
             <div className={classes.avatar}>{renderAvatar()}</div>
             <div className={classes.information}>
-              <Typography>{displayName}</Typography>
+              <Typography>{`${profile.firstName} ${profile.lastName}`}</Typography>
               <Typography className={classes.email} variant='subtitle2'>
                 {email}
               </Typography>

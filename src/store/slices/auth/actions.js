@@ -9,8 +9,11 @@ export const register = (input) => async (dispatch) => {
       .auth()
       .createUserWithEmailAndPassword(email, password);
 
-    await authClient.createUser({
-      user: { ...user.user, firstName, lastName },
+    await authClient.createUserInFirestore({
+      ...user,
+      firstName,
+      lastName,
+      email,
     });
 
     dispatch(actionCreators.registerSuccess());

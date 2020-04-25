@@ -23,11 +23,13 @@ export const uiConfig = {
   ],
   callbacks: {
     signInSuccessWithAuthResult: (data) => {
-      authClient.createUser(data);
+      authClient.createUserInFirestore(data);
     },
   },
 };
 
 firebase.initializeApp(config);
+
+export const db = firebase.firestore();
 
 export default firebase;

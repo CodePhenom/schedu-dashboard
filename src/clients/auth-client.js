@@ -1,47 +1,42 @@
-import httpClient from './http';
+import { db } from '../config/firebase-config';
 
+const PASSWORD_PROVIDER_ID = 'password';
 const GOOGLE_PROVIDER_ID = 'google.com';
 const FACEBOOK_PROVIDER_ID = 'facebook.com';
 
-const isGoogleProvider = ({ providerId }) => providerId === GOOGLE_PROVIDER_ID;
-const isFacebookProvider = ({ providerId }) =>
-  providerId === FACEBOOK_PROVIDER_ID;
-
-export const createUser = async ({ user, additionalUserInfo }) => {
-  const isProvider = Boolean(additionalUserInfo);
-
+export const createUserInFirestore = async ({
+  user,
+  additionalUserInfo,
+  firstName,
+  lastName,
+  email,
+}) => {
   let values = {
-    id: user.uid,
-    email: user.email,
     isAdmin: false,
-    isEnable: true,
-    isEmailVerified: false,
+    email: email || user.email,
   };
 
-  if (!isProvider) {
+  if (additionalUserInfo.providerId === PASSWORD_PROVIDER_ID) {
     values = {
       ...values,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      firstName: firstName,
+      lastName: lastName,
     };
-    return httpClient.post('/users', values);
   }
 
-  if (isGoogleProvider(additionalUserInfo)) {
+  if (additionalUserInfo.providerId === GOOGLE_PROVIDER_ID) {
     const {
-      profile: { given_name: firstName, family_name: lastName, verified_email },
+      profile: { given_name: firstName, family_name: lastName },
     } = additionalUserInfo;
 
     values = {
       ...values,
       firstName,
       lastName,
-      isEmailVerified: verified_email,
-      photoUrl: user.photoURL,
     };
   }
 
-  if (isFacebookProvider(additionalUserInfo)) {
+  if (additionalUserInfo.providerId === FACEBOOK_PROVIDER_ID) {
     const {
       profile: { first_name: firstName, last_name: lastName },
     } = additionalUserInfo;
@@ -50,14 +45,15 @@ export const createUser = async ({ user, additionalUserInfo }) => {
       ...values,
       firstName,
       lastName,
-      isEmailVerified: true,
-      photoUrl: user.photoURL,
     };
   }
 
-  return httpClient.post('/users', values);
+  const currentUser = await db.collection('users').doc(user.uid).get();
+  if (!currentUser.exists) {
+    await db.collection('users').doc(user.uid).set(values);
+  }
 };
 
 export default {
-  createUser,
+  createUserInFirestore,
 };
