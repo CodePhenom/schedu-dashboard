@@ -4,14 +4,16 @@ const PASSWORD_PROVIDER_ID = 'password';
 const GOOGLE_PROVIDER_ID = 'google.com';
 const FACEBOOK_PROVIDER_ID = 'facebook.com';
 
-export const createUser = async ({
+export const createUserInFirestore = async ({
   user,
   additionalUserInfo,
   firstName,
   lastName,
+  email,
 }) => {
   let values = {
     isAdmin: false,
+    email: email || user.email,
   };
 
   if (additionalUserInfo.providerId === PASSWORD_PROVIDER_ID) {
@@ -53,5 +55,5 @@ export const createUser = async ({
 };
 
 export default {
-  createUser,
+  createUserInFirestore,
 };

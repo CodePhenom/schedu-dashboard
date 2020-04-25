@@ -23,7 +23,7 @@ export const uiConfig = {
   ],
   callbacks: {
     signInSuccessWithAuthResult: (data) => {
-      authClient.createUser(data);
+      authClient.createUserInFirestore(data);
     },
   },
 };
