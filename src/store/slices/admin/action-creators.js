@@ -39,11 +39,11 @@ export const adminDeletesUserSuccess = () => ({
   type: actionTypes.ADMIN_DELETES_USER_SUCCESS,
 });
 
-export const removeNotificationMessage = () => ({
-  type: actionTypes.REMOVE_NOTIFICATION_MESSAGE,
+export const removeAdminErrorMessage = () => ({
+  type: actionTypes.REMOVE_ADMIN_ERROR_MESSAGE,
 });
 
-export const httpError = (message) => ({
-  type: actionTypes.HTTP_ERROR,
+export const setAdminErrorMessage = (message) => ({
+  type: actionTypes.SET_ADMIN_ERROR_MESSAGE,
   payload: { message },
 });

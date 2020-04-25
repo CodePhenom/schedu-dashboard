@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import {
   updateAdminRole,
   updateEnableDisableUser,
-  removeNotificationMessage,
+  removeAdminErrorMessage,
   adminDeletesUser,
 } from '../../store/slices/admin/actions';
 
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const UserTable = (props) => {
   const classes = useStyles();
 
-  const { searchedUser, notificationMessage } = props.admin;
+  const { searchedUser, adminErrorMessage } = props.admin;
 
   const handleupdateAdminRole = () => {
     props.updateAdminRole({
@@ -82,7 +82,7 @@ const UserTable = (props) => {
   };
 
   const handleCloseSnackBar = (id) => {
-    props.removeNotificationMessage(id);
+    props.removeAdminErrorMessage(id);
   };
 
   const renderUserInfoInTable = (key) => {
@@ -97,9 +97,9 @@ const UserTable = (props) => {
     <div className={classes.root}>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={Boolean(notificationMessage)}
+        open={Boolean(adminErrorMessage)}
         onClose={handleCloseSnackBar}
-        message={notificationMessage}
+        message={adminErrorMessage}
         autoHideDuration={5000}
       ></Snackbar>
       <Paper className={classes.tableContainer}>
@@ -227,7 +227,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateAdminRole: (email) => dispatch(updateAdminRole(email)),
   updateEnableDisableUser: (data) => dispatch(updateEnableDisableUser(data)),
-  removeNotificationMessage: (id) => dispatch(removeNotificationMessage(id)),
+  removeAdminErrorMessage: (id) => dispatch(removeAdminErrorMessage(id)),
   adminDeletesUser: (id) => dispatch(adminDeletesUser(id)),
 });
 

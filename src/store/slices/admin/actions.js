@@ -4,23 +4,28 @@ import * as actionCreators from './action-creators';
 
 export const findUserByEmail = (email) => async (dispatch) => {
   try {
-    const { data } = await httpClient.get(`/admins/users/email/${email}`, {
-      headers: { AuthToken: getToken() },
-    });
+    const { data } = await httpClient.get(
+      `/admins/user-by-email?email=${email}`,
+      {
+        headers: { AuthToken: getToken() },
+      }
+    );
     dispatch(actionCreators.findUserByEmailSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError(message));
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
 export const findUserById = (id) => async (dispatch) => {
   try {
-    const { data } = await httpClient.get(`/admins/users/${id}`, {
+    const { data } = await httpClient.get(`/admins/user-by-id?id=${id}`, {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.findUserByIdSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError(message));
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -30,8 +35,9 @@ export const updateAdminRole = (input) => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.updateAdminRoleSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError(message));
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -41,8 +47,9 @@ export const updateEnableDisableUser = (input) => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.updateEnableDisableUserSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError(message));
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -52,8 +59,9 @@ export const fetchAllAdmins = () => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.fetchAllAdminsSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError(message));
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -63,8 +71,9 @@ export const fetchUsersCount = () => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.fetchUsersCountSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError());
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -74,8 +83,9 @@ export const fetchAdminsCount = () => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.fetchAdminsCountSuccess(data));
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError());
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
@@ -85,11 +95,12 @@ export const adminDeletesUser = (id) => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.adminDeletesUserSuccess());
-  } catch ({ message }) {
-    dispatch(actionCreators.httpError());
+  } catch ({ message, response }) {
+    const { data } = response;
+    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
   }
 };
 
-export const removeNotificationMessage = () => (dispatch) => {
-  dispatch(actionCreators.removeNotificationMessage());
+export const removeAdminErrorMessage = () => (dispatch) => {
+  dispatch(actionCreators.removeAdminErrorMessage());
 };
