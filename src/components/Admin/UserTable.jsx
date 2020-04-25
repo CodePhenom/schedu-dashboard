@@ -77,7 +77,7 @@ const UserTable = (props) => {
   const handleUpdateEnableDisaleUser = () => {
     props.updateEnableDisableUser({
       id: searchedUser.id,
-      isEnable: !searchedUser.isEnable,
+      isDisabled: !searchedUser.isDisabled,
     });
   };
 
@@ -86,6 +86,21 @@ const UserTable = (props) => {
   };
 
   const renderUserInfoInTable = (key) => {
+    if (key === 'createdAt' || key === 'lastLoginAt') {
+      if (searchedUser) {
+        const date = new Date(searchedUser[key]);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hour = date.getHours().toString().padStart(2, '0');
+        const minute = date.getMinutes().toString().padStart(2, '0');
+        const format = `${day}.${month}.${year} ${hour}:${minute}`;
+        return <Typography>{format}</Typography>;
+      } else {
+        return '';
+      }
+    }
+
     return searchedUser ? <Typography>{searchedUser[key]}</Typography> : '';
   };
 
@@ -146,6 +161,14 @@ const UserTable = (props) => {
                   {renderUserInfoInTable('createdAt')}
                 </StyledTableCell>
               </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className={classes.userInfoKeyCell}>
+                  Last Login At
+                </StyledTableCell>
+                <StyledTableCell className={classes.userInfoValueCell}>
+                  {renderUserInfoInTable('lastLoginAt')}
+                </StyledTableCell>
+              </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
@@ -166,7 +189,7 @@ const UserTable = (props) => {
                 <StyledTableCell>
                   {searchedUser ? (
                     <Switch
-                      checked={searchedUser.isEnable}
+                      checked={!searchedUser.isDisabled}
                       onChange={handleUpdateEnableDisaleUser}
                       color='primary'
                     />

@@ -1,12 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import {
-  fetchUsersCount,
-  fetchAdminsCount,
-} from '../../store/slices/admin/actions';
-import InfoCard from './Components/InfoCard';
-import PeopleIcon from '@material-ui/icons/People';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyle = makeStyles({
@@ -22,27 +15,7 @@ const useStyle = makeStyles({
 const Home = (props) => {
   const classes = useStyle();
 
-  useEffect(() => {
-    props.fetchUsersCount();
-    props.fetchAdminsCount();
-  }, []);
-
-  return (
-    <div className={classes.infoCards}>
-      <InfoCard
-        className={classes.infoCard}
-        icon={<PeopleIcon />}
-        title='User Count'
-        count={props.admin.usersCount}
-      />
-      <InfoCard
-        className={classes.infoCard}
-        icon={<SupervisedUserCircleIcon />}
-        title='Admin Count'
-        count={props.admin.adminsCount}
-      />
-    </div>
-  );
+  return <div className={classes.infoCards}>Admin Home</div>;
 };
 
 const mapStateToProps = (state) => ({
@@ -50,10 +23,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchUsersCount: () => dispatch(fetchUsersCount()),
-    fetchAdminsCount: () => dispatch(fetchAdminsCount()),
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
