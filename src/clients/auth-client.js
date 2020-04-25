@@ -33,6 +33,7 @@ export const createUserInFirestore = async ({
       ...values,
       firstName,
       lastName,
+      photoURL: user.photoURL,
     };
   }
 
@@ -45,6 +46,7 @@ export const createUserInFirestore = async ({
       ...values,
       firstName,
       lastName,
+      photoURL: user.photoURL,
     };
   }
 

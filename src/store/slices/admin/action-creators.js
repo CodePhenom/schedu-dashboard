@@ -10,28 +10,20 @@ export const findUserByIdSuccess = (data) => ({
   payload: { data },
 });
 
-export const updateAdminRoleSuccess = (data) => ({
-  type: actionTypes.UPDATE_USER_ADMIN_ROLE_SUCCESS,
-  payload: { data },
-});
+export const updateAdminRoleSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_USER_ADMIN_ROLE_SUCCESS,
+    payload: { isAdmin: data },
+  };
+};
 
 export const updateEnableDisableUserSuccess = (data) => ({
   type: actionTypes.ENABLE_DISABLE_USER_SUCCESS,
-  payload: { data },
+  payload: { isDisabled: data },
 });
 
 export const fetchAllAdminsSuccess = (data) => ({
   type: actionTypes.FETCH_ALL_ADMINS_SUCCESS,
-  payload: { data },
-});
-
-export const fetchUsersCountSuccess = (data) => ({
-  type: actionTypes.FETCH_USERS_COUNT_SUCCESS,
-  payload: { data },
-});
-
-export const fetchAdminsCountSuccess = (data) => ({
-  type: actionTypes.FETCH_ADMINS_COUNT_SUCCESS,
   payload: { data },
 });
 

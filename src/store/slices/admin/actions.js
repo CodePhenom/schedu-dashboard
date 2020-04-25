@@ -31,10 +31,10 @@ export const findUserById = (id) => async (dispatch) => {
 
 export const updateAdminRole = (input) => async (dispatch) => {
   try {
-    const { data } = await httpClient.put('/admins/role', input, {
+    await httpClient.put('/admins/role', input, {
       headers: { AuthToken: getToken() },
     });
-    dispatch(actionCreators.updateAdminRoleSuccess(data));
+    dispatch(actionCreators.updateAdminRoleSuccess(input.isAdmin));
   } catch ({ message, response }) {
     const { data } = response;
     dispatch(actionCreators.setAdminErrorMessage(data.message || message));
@@ -43,10 +43,10 @@ export const updateAdminRole = (input) => async (dispatch) => {
 
 export const updateEnableDisableUser = (input) => async (dispatch) => {
   try {
-    const { data } = await httpClient.put('/admins/users/status', input, {
+    await httpClient.put('/admins/users/status', input, {
       headers: { AuthToken: getToken() },
     });
-    dispatch(actionCreators.updateEnableDisableUserSuccess(data));
+    dispatch(actionCreators.updateEnableDisableUserSuccess(input.isDisabled));
   } catch ({ message, response }) {
     const { data } = response;
     dispatch(actionCreators.setAdminErrorMessage(data.message || message));
@@ -59,30 +59,6 @@ export const fetchAllAdmins = () => async (dispatch) => {
       headers: { AuthToken: getToken() },
     });
     dispatch(actionCreators.fetchAllAdminsSuccess(data));
-  } catch ({ message, response }) {
-    const { data } = response;
-    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
-  }
-};
-
-export const fetchUsersCount = () => async (dispatch) => {
-  try {
-    const { data } = await httpClient.get('/admins/users/count', {
-      headers: { AuthToken: getToken() },
-    });
-    dispatch(actionCreators.fetchUsersCountSuccess(data));
-  } catch ({ message, response }) {
-    const { data } = response;
-    dispatch(actionCreators.setAdminErrorMessage(data.message || message));
-  }
-};
-
-export const fetchAdminsCount = () => async (dispatch) => {
-  try {
-    const { data } = await httpClient.get('/admins/count', {
-      headers: { AuthToken: getToken() },
-    });
-    dispatch(actionCreators.fetchAdminsCountSuccess(data));
   } catch ({ message, response }) {
     const { data } = response;
     dispatch(actionCreators.setAdminErrorMessage(data.message || message));

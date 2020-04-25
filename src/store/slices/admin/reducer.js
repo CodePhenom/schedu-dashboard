@@ -25,7 +25,10 @@ const adminReducer = (state = initState, { type, payload }) => {
       return {
         ...state,
         notificationMessage: 'Updated admin role',
-        searchedUser: payload.data,
+        searchedUser: {
+          ...state.searchedUser,
+          isAdmin: payload.isAdmin,
+        },
       };
     case actionTypes.ENABLE_DISABLE_USER_SUCCESS:
       return {
@@ -33,23 +36,13 @@ const adminReducer = (state = initState, { type, payload }) => {
         notificationMessage: 'Updated user status',
         searchedUser: {
           ...state.searchedUser,
-          isEnable: payload.data.isEnable,
+          isDisabled: payload.isDisabled,
         },
       };
     case actionTypes.FETCH_ALL_ADMINS_SUCCESS:
       return {
         ...state,
         admins: payload.data,
-      };
-    case actionTypes.FETCH_USERS_COUNT_SUCCESS:
-      return {
-        ...state,
-        usersCount: payload.data,
-      };
-    case actionTypes.FETCH_ADMINS_COUNT_SUCCESS:
-      return {
-        ...state,
-        adminsCount: payload.data,
       };
     case actionTypes.ADMIN_DELETES_USER_SUCCESS:
       return {
