@@ -1,5 +1,5 @@
 import httpClient from './../../../clients/http';
-import { getToken } from './../../../lib/get-token';
+import { getAuthHeader } from './../../../lib/get-token';
 import * as actionCreators from './action-creators';
 
 export const findUserByEmail = (email) => async (dispatch) => {
@@ -7,7 +7,7 @@ export const findUserByEmail = (email) => async (dispatch) => {
     const { data } = await httpClient.get(
       `/admins/user-by-email?email=${email}`,
       {
-        headers: { AuthToken: getToken() },
+        headers: { ...getAuthHeader() },
       }
     );
     dispatch(actionCreators.findUserByEmailSuccess(data));
@@ -20,7 +20,7 @@ export const findUserByEmail = (email) => async (dispatch) => {
 export const findUserById = (id) => async (dispatch) => {
   try {
     const { data } = await httpClient.get(`/admins/user-by-id?id=${id}`, {
-      headers: { AuthToken: getToken() },
+      headers: { ...getAuthHeader() },
     });
     dispatch(actionCreators.findUserByIdSuccess(data));
   } catch ({ message, response }) {
@@ -32,7 +32,7 @@ export const findUserById = (id) => async (dispatch) => {
 export const updateAdminRole = (input) => async (dispatch) => {
   try {
     await httpClient.put('/admins/role', input, {
-      headers: { AuthToken: getToken() },
+      headers: { ...getAuthHeader() },
     });
     dispatch(actionCreators.updateAdminRoleSuccess(input.isAdmin));
   } catch ({ message, response }) {
@@ -44,7 +44,7 @@ export const updateAdminRole = (input) => async (dispatch) => {
 export const updateEnableDisableUser = (input) => async (dispatch) => {
   try {
     await httpClient.put('/admins/users/status', input, {
-      headers: { AuthToken: getToken() },
+      headers: { ...getAuthHeader() },
     });
     dispatch(actionCreators.updateEnableDisableUserSuccess(input.isDisabled));
   } catch ({ message, response }) {
@@ -56,7 +56,7 @@ export const updateEnableDisableUser = (input) => async (dispatch) => {
 export const fetchAllAdmins = () => async (dispatch) => {
   try {
     const { data } = await httpClient.get('/admins', {
-      headers: { AuthToken: getToken() },
+      headers: { ...getAuthHeader() },
     });
     dispatch(actionCreators.fetchAllAdminsSuccess(data));
   } catch ({ message, response }) {
@@ -68,7 +68,7 @@ export const fetchAllAdmins = () => async (dispatch) => {
 export const adminDeletesUser = (id) => async (dispatch) => {
   try {
     await httpClient.delete(`/admins/users/${id}`, {
-      headers: { AuthToken: getToken() },
+      headers: { ...getAuthHeader() },
     });
     dispatch(actionCreators.adminDeletesUserSuccess());
   } catch ({ message, response }) {
