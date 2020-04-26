@@ -15,12 +15,13 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import ViewCarouselOutlinedIcon from '@material-ui/icons/ViewCarouselOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes } from './../../../routes';
+import { userAppRoutes } from './../../../routes';
 import DropDown from '../../common/DropDownMenu';
 import { changeToUserTheme } from './../../../store/slices/theme/actions';
 
@@ -89,9 +90,19 @@ function ResponsiveDrawer(props) {
       <MenuList>
         <MenuItem component={Link} to='/home' selected={'/home' === pathname}>
           <ListItemIcon>
-            <HomeIcon />
+            <HomeOutlinedIcon />
           </ListItemIcon>
           <ListItemText primary='Home' />
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to='/flashcards'
+          selected={'/flashcards' === pathname}
+        >
+          <ListItemIcon>
+            <ViewCarouselOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary='FlashCards' />
         </MenuItem>
         <MenuItem
           component={Link}
@@ -171,7 +182,7 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          {privateRoutes.map((route, id) => (
+          {userAppRoutes.map((route, id) => (
             <Route {...route} key={id} />
           ))}
           <Redirect from='/' to='/home' />
