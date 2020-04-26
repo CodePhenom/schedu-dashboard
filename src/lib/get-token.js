@@ -1,4 +1,7 @@
-export const getToken = () => {
+export const getAuthHeader = () => {
   const idTokenResult = JSON.parse(localStorage.getItem('idTokenResult'));
-  return idTokenResult ? idTokenResult.token : null;
+
+  return {
+    Authorization: `Bearer ${idTokenResult ? idTokenResult.token : null}`,
+  };
 };
