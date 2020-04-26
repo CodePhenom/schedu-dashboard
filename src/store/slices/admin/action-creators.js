@@ -39,3 +39,12 @@ export const setAdminErrorMessage = (message) => ({
   type: actionTypes.SET_ADMIN_ERROR_MESSAGE,
   payload: { message },
 });
+
+export const removeAdminNotificationMessage = () => ({
+  type: actionTypes.REMOVE_ADMIN_NOTIFICATION_MESSAGE,
+});
+
+export const setAdminNotificationMessage = (message) => ({
+  type: actionTypes.SET_ADMIN_NOTIFICATION_MESSAGE,
+  payload: { message },
+});
