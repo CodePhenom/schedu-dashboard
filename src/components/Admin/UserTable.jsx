@@ -7,18 +7,19 @@ import {
   TableContainer,
   TableRow,
   Paper,
-  Snackbar,
   Typography,
   Switch,
   Button,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
+import Notification from './Components/Notification';
 import {
   updateAdminRole,
   updateEnableDisableUser,
   removeAdminErrorMessage,
   adminDeletesUser,
+  removeAdminNotificationMessage,
 } from '../../store/slices/admin/actions';
 
 const StyledTableCell = withStyles((theme) => {
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 const UserTable = (props) => {
   const classes = useStyles();
 
-  const { searchedUser, adminErrorMessage } = props.admin;
+  const { searchedUser, errorMessage, notificationMessage } = props.admin;
 
   const handleupdateAdminRole = () => {
     props.updateAdminRole({
@@ -81,8 +82,12 @@ const UserTable = (props) => {
     });
   };
 
-  const handleCloseSnackBar = (id) => {
-    props.removeAdminErrorMessage(id);
+  const handleCloseErrorSnackBar = () => {
+    props.removeAdminErrorMessage();
+  };
+
+  const handleCloseInfoSnackBar = () => {
+    props.removeAdminNotificationMessage();
   };
 
   const renderUserInfoInTable = (key) => {
@@ -110,13 +115,20 @@ const UserTable = (props) => {
 
   return (
     <div className={classes.root}>
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={Boolean(adminErrorMessage)}
-        onClose={handleCloseSnackBar}
-        message={adminErrorMessage}
-        autoHideDuration={5000}
-      ></Snackbar>
+      <Notification
+        open={Boolean(errorMessage)}
+        handleClose={handleCloseErrorSnackBar}
+        message={errorMessage}
+        duration={5000}
+        type='error'
+      />
+      <Notification
+        open={Boolean(notificationMessage)}
+        handleClose={handleCloseInfoSnackBar}
+        message={notificationMessage}
+        duration={5000}
+        type='success'
+      />
       <Paper className={classes.tableContainer}>
         <div className={classes.title}>
           <Typography variant='h6' component='div'>
@@ -250,7 +262,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateAdminRole: (email) => dispatch(updateAdminRole(email)),
   updateEnableDisableUser: (data) => dispatch(updateEnableDisableUser(data)),
-  removeAdminErrorMessage: (id) => dispatch(removeAdminErrorMessage(id)),
+  removeAdminErrorMessage: () => dispatch(removeAdminErrorMessage()),
+  removeAdminNotificationMessage: () =>
+    dispatch(removeAdminNotificationMessage()),
   adminDeletesUser: (id) => dispatch(adminDeletesUser(id)),
 });
 
