@@ -20,9 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { privateRoutes } from './../../routes';
-import DropDown from './DropDownMenu';
-import { changeToUserTheme } from './../../store/slices/theme/actions';
+import { privateRoutes } from './../../../routes';
+import DropDown from '../../common/DropDownMenu';
+import { changeToUserTheme } from './../../../store/slices/theme/actions';
 
 const drawerWidth = 240;
 

@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { register } from './../store/slices/auth/actions';
+import { login } from './../../store/slices/auth/actions';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase, { uiConfig } from './../../config/firebase-config';
 
-const COMPONENT = 'Register';
+const COMPONENT = 'Login';
 
-class Register extends Component {
+class Login extends Component {
   state = {
     email: '',
     password: '',
-    firstName: '',
-    lastName: '',
     shouldRedirect: false,
   };
 
@@ -21,12 +21,10 @@ class Register extends Component {
     });
   };
 
-  handleSignup = async (e) => {
+  handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await this.props.register({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
+      await this.props.login({
         email: this.state.email,
         password: this.state.password,
       });
@@ -45,7 +43,7 @@ class Register extends Component {
 
     return (
       <Paper elevation={3}>
-        <h1>Register</h1>
+        <h1>Login</h1>
         <form>
           <TextField
             required
@@ -59,26 +57,6 @@ class Register extends Component {
           />
           <TextField
             required
-            id='firstName'
-            name='firstName'
-            label='Firstame'
-            variant='outlined'
-            placeholder='Firstname'
-            onChange={this.handleChange}
-            value={this.state.firstName}
-          />
-          <TextField
-            required
-            id='lastName'
-            name='lastName'
-            label='Lastname'
-            variant='outlined'
-            placeholder='Lastname'
-            onChange={this.handleChange}
-            value={this.state.lastName}
-          />
-          <TextField
-            required
             id='password'
             name='password'
             label='Password'
@@ -89,16 +67,20 @@ class Register extends Component {
             value={this.state.password}
           />
           <Button
+            onClick={this.handleLogin}
             variant='contained'
             color='primary'
-            onClick={this.handleSignup}
           >
-            Signup
+            Login
           </Button>
         </form>
-        <Typography component={Link} to='/login'>
-          Already have an account? Login!
+        <Typography component={Link} to='/register'>
+          Create a new account!
         </Typography>
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
         {authError && <Typography>{authError}</Typography>}
       </Paper>
     );
@@ -112,10 +94,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    register: (credentials) => dispatch(register(credentials)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  login: (credentials) => dispatch(login(credentials)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
-import Notification from './Components/Notification';
+import Notification from './components/Notification';
 import {
   updateAdminRole,
   updateEnableDisableUser,

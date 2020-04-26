@@ -1,10 +1,10 @@
-import Login from '../Components/Login';
-import Register from '../Components/Register';
-import Home from './../Components/Home';
-import Instructions from './../Components/Instructions';
-import AdminHome from './../Components/Admin/Home';
-import AdminUsers from './../Components/Admin/Users';
-import AdminAdmins from './../Components/Admin/Admins';
+import Login from '../apps/common/Login';
+import Register from '../apps/common/Register';
+import Home from './../apps/user/Home';
+import Instructions from './../apps/user/Instructions';
+import AdminHome from './../apps/admin/Home';
+import AdminUsers from './../apps/admin/Users';
+import AdminAdmins from './../apps/admin/Admins';
 
 const publicRoutes = [
   {
