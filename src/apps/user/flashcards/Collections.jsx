@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   fetchAllCollections,
+  fetchAllCollectionsEraseError,
   deleteCollection,
   deleteCollectionEraseError,
 } from '../../../store/slices/collection/actions';
@@ -16,13 +17,22 @@ const useStyles = makeStyles({
     display: 'flex',
     flexFlow: 'row wrap',
   },
+  progressContainer: {
+    display: 'flex',
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const Collectinos = (props) => {
   const {
     collections,
     fetchCollectionsPending,
+    fetchCollectionsError,
+    addCollectionPending,
     deleteCollectionError,
+    deleteCollectionPending,
   } = props.collection;
   const classes = useStyles();
 
@@ -30,17 +40,27 @@ const Collectinos = (props) => {
     props.fetchAllCollections();
   }, []);
 
-  if (fetchCollectionsPending) {
-    return <CircularProgress size={120} thickness={5} disableShrink />;
+  if (
+    fetchCollectionsPending ||
+    deleteCollectionPending ||
+    addCollectionPending
+  ) {
+    return (
+      <div className={classes.progressContainer}>
+        <CircularProgress size={120} thickness={5} disableShrink />
+      </div>
+    );
   }
-
-  if (collections.length === 0) return null;
 
   const handleDelete = (id) => {
     props.deleteCollection(id);
   };
 
-  const handleCloseSnackBar = () => {
+  const handleCloseFetchSnackBar = () => {
+    props.fetchAllCollectionsEraseError();
+  };
+
+  const handleCloseDeleteSnackBar = () => {
     props.deleteCollectionEraseError();
   };
 
@@ -48,13 +68,20 @@ const Collectinos = (props) => {
     <div className={classes.root}>
       <AddNewCollection />
       <ListOfCollections collections={collections} onDelete={handleDelete} />
+      {fetchCollectionsError && (
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={Boolean(fetchCollectionsError)}
+          onClose={handleCloseFetchSnackBar}
+          message={fetchCollectionsError}
+        />
+      )}
       {deleteCollectionError && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={Boolean(deleteCollectionError)}
-          onClose={handleCloseSnackBar}
+          onClose={handleCloseDeleteSnackBar}
           message={deleteCollectionError}
-          // key={vertical + horizontal}
         />
       )}
     </div>
@@ -71,6 +98,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllCollections: () => dispatch(fetchAllCollections()),
+    fetchAllCollectionsEraseError: () =>
+      dispatch(fetchAllCollectionsEraseError()),
     deleteCollection: (id) => dispatch(deleteCollection(id)),
     deleteCollectionEraseError: () => dispatch(deleteCollectionEraseError()),
   };

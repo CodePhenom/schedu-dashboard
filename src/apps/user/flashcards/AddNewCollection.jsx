@@ -67,6 +67,7 @@ const AddNewCollection = (props) => {
     if (name && name.trim() !== '') {
       props.addNewCollection({ name });
       setName('');
+      setOpen(false);
     }
   };
 
