@@ -1,5 +1,23 @@
 import actionTypes from './action-types';
 
+export const addNewCollectionRequest = (data) => ({
+  type: actionTypes.ADD_NEW_COLLECTION_REQUEST,
+});
+
+export const addNewCollectionSuccess = (data) => ({
+  type: actionTypes.ADD_NEW_COLLECTION_SUCCESS,
+  payload: data,
+});
+
+export const addNewCollectionFailure = (message) => ({
+  type: actionTypes.ADD_NEW_COLLECTION_FAILURE,
+  payload: message,
+});
+
+export const addNewCollectionEraseError = (message) => ({
+  type: actionTypes.ADD_NEW_COLLECTION_ERASE_ERROR,
+});
+
 export const fetchAllCollectionsSuccess = (data) => ({
   type: actionTypes.FETCH_ALL_COLLECTIONS_SUCCESS,
   payload: data,

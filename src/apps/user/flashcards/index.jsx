@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  fetchAllCollections,
   removeCollectionErrorMessage,
   removeCollectionNotificationMessage,
 } from '../../../store/slices/collection/actions';
-import Notification from '../../common/snackbar/Notification';
 import { connect } from 'react-redux';
+import Notification from '../../common/snackbar/Notification';
+import Collections from './Collections';
 
 const FlashCards = (props) => {
   const { errorMessage, notificationMessage } = props.collection;
-
-  useEffect(() => {
-    props.fetchAllCollections();
-  }, []);
 
   const handleCloseErrorSnackBar = () => {
     props.removeCollectionErrorMessage();
@@ -38,10 +34,7 @@ const FlashCards = (props) => {
         duration={5000}
         type='success'
       />
-      {props.collection.collections &&
-        props.collection.collections.map((collection) => (
-          <div key={collection.id}>{collection.name}</div>
-        ))}
+      <Collections />
     </div>
   );
 };
@@ -49,13 +42,11 @@ const FlashCards = (props) => {
 const mapStateToProps = (state) => {
   return {
     collection: state.collection,
-    auth: state.firebase,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllCollections: () => dispatch(fetchAllCollections()),
     removeCollectionNotificationMessage: () =>
       dispatch(removeCollectionNotificationMessage()),
     removeCollectionErrorMessage: () =>

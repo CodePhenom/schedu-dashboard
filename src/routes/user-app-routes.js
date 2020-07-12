@@ -1,6 +1,6 @@
 import Home from '../apps/user/components/Home';
 import Instructions from '../apps/user/components/Instructions';
-import FlashCards from '../apps/user/components/FlashCards';
+import FlashCards from '../apps/user/flashcards';
 
 export default [
   {
