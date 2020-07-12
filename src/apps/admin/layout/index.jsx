@@ -3,7 +3,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { adminRoutes } from '../../../routes';
-import PrivateAdminRoute from '../../PrivateAdminRoute';
+import PrivateAdminRoute from '../../common/PrivateAdminRoute';
 import { changeToAdminTheme } from './../../../store/slices/theme/actions';
 import MyAppBar from './AppBar';
 import MyDrawer from './Drawer';

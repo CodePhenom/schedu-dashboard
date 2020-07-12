@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import firebase from './config/firebase-config';
-import PrivateRoute from './Components/PrivateRoute';
-import NotFound from './Components/NotFound';
-import Layout from './Components/Layout';
-import AdminLayout from './Components/Admin/Layout';
+import PrivateRoute from './apps/common/PrivateRoute';
+import NotFound from './apps/common/NotFound';
+import UserLayout from './apps/user/layout';
+import AdminLayout from './apps/admin/layout';
 import { publicRoutes } from './routes';
 import {
   BrowserRouter as Router,
@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUserAdminStatus } from './store/slices/auth/actions';
-import PrivateAdminRoute from './Components/PrivateAdminRoute';
+import PrivateAdminRoute from './apps/common/PrivateAdminRoute';
 import { MuiThemeProvider } from '@material-ui/core';
 import themes from './themes';
 
@@ -63,7 +63,7 @@ class App extends Component {
             })}
             <Route path='/not-found' component={NotFound} />
             <PrivateAdminRoute path='/admin' component={AdminLayout} />
-            <PrivateRoute path='/' component={Layout} />
+            <PrivateRoute path='/' component={UserLayout} />
             <Redirect to='/not-found' />
           </Switch>
         </Router>
